@@ -1,22 +1,32 @@
 <div align="center">
     <img width="255" alt="icon-light" src="./icon.png">
-    <h1>SM-Kiosk</h1>
+    <h1>SM Kiosk</h1>
 </div>
 
-Une solution complète permettant la gestion de commandes lors d'événements, composée d'une application web, d'une application mobile et d'un backend.
+Une solution complète permettant la gestion de commandes (passage, paiement et suivi) lors d'événements, composée d'une application web (back-office), d'une application mobile (client) et d'un backend (API REST).
 
 ## Table des matières
 
 1. [Table des matières](#table-des-matières)
-2. [Technologies utilisées](#technologies-utilisées)
+2. [Fonctionnalités](#fonctionnalités)
+3. [Installation et lancement](#installation-et-lancement)
+4. [Technologies utilisées](#technologies-utilisées)
     - [Frontend](#frontend)
         - [Web](#web)
         - [Mobile](#mobile)
     - [Backend](#backend)
     - [Base de données](#base-de-données)
     - [Modélisation](#modélisation)
-3. [Structure de la base de données](#structure-de-la-base-de-données)
-4. [Informations sur la licence](#informations-sur-la-licence)
+5. [Structure de la base de données](#structure-de-la-base-de-données)
+6. [Informations sur la licence](#informations-sur-la-licence)
+
+## Fonctionnalités
+
+(...)
+
+## Installation et lancement
+
+(...)
 
 ## Technologies utilisées
 
