@@ -6,11 +6,11 @@ import {
     createUser,
     updateUser,
     deleteUser
-} from "../controller/user";
+} from "../../../controller/user";
 
-import { replaceUserAvatar } from '../middleware/image-replacement';
-import { isAdmin } from '../middleware/identification';
-import { userVal } from "../middleware/validation/validator"
+import { replaceUserAvatar } from '../../../middleware/image-replacement';
+import { isAdmin } from '../../../middleware/identification';
+import { userVal } from "../../../middleware/validation/validator"
 
 const router = Router();
 

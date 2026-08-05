@@ -2,11 +2,11 @@ import { Router } from "express";
 
 import { default as interactRouter } from "./interact";
 
-import { login, createUser } from "../controller/user";
-import { upload } from "../controller/image"
+import { login, createUser } from "../../controller/user";
+import { upload } from "../../controller/image"
 
-import { userVal } from "../middleware/validation/validator";
-import { checkJWT } from "../middleware/identification";
+import { userVal } from "../../middleware/validation/validator";
+import { checkJWT } from "../../middleware/identification";
 
 const router = Router();
 

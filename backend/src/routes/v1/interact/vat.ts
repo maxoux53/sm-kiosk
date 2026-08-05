@@ -7,10 +7,10 @@ import {
     updateVat,
     deleteVat
 
-} from '../controller/vat';
+} from '../../../controller/vat';
 
-import { isAdmin } from '../middleware/identification';
-import { vatVal } from '../middleware/validation/validator';
+import { isAdmin } from '../../../middleware/identification';
+import { vatVal } from '../../../middleware/validation/validator';
 
 const router = Router();
 

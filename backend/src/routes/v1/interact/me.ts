@@ -4,24 +4,24 @@ import {
     getUser,
     updateUser,
     deleteUser
-} from '../controller/user';
+} from '../../../controller/user';
 import {
     getPurchasesByUser,
     createPurchase
-} from '../controller/purchase';
+} from '../../../controller/purchase';
 import { 
     getEventsByUser,
     createEvent 
-} from '../controller/event';
+} from '../../../controller/event';
 import {
     joinEvent,
     deleteMembership
-} from '../controller/membership';
+} from '../../../controller/membership';
 
-import { replaceUserAvatar } from '../middleware/image-replacement';
-import { purchaseVal, userVal } from '../middleware/validation/validator';
-import { eventVal } from '../middleware/validation/validator';
-import { membershipVal } from '../middleware/validation/validator';
+import { replaceUserAvatar } from '../../../middleware/image-replacement';
+import { purchaseVal, userVal } from '../../../middleware/validation/validator';
+import { eventVal } from '../../../middleware/validation/validator';
+import { membershipVal } from '../../../middleware/validation/validator';
 
 const router = Router();
 

@@ -8,7 +8,7 @@ import { default as userRouter } from "./user";
 import { default as vatRouter } from "./vat";
 import { default as personalRouter } from "./me";
 
-import { self, isAdmin } from "../middleware/identification";
+import { self, isAdmin } from "../../../middleware/identification";
 
 const router = Router();
 
