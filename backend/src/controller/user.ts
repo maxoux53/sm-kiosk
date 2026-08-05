@@ -1,9 +1,9 @@
-import prisma from "../database/databaseORM.ts";
+import prisma from "../database/databaseORM";
 import { Request, Response } from "express";
-import { hash, compare} from "../util/hash.ts";
-import { sign } from "../util/jwt.ts";
-import { eraseStoredImage } from '../util/images.ts';
-import { appropriateHttpStatusCode } from "../util/appropriateHttpStatusCode.ts";
+import { hash, compare} from "../util/hash";
+import { sign } from "../util/jwt";
+import { eraseStoredImage } from '../util/images';
+import { appropriateHttpStatusCode } from "../util/appropriateHttpStatusCode";
 
 export const login = async (req: Request, res: Response) : Promise<void> => {
     const { email, password } = req.body;

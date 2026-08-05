@@ -1,6 +1,6 @@
 import vine from '@vinejs/vine'
 
-import * as c from '../../../../shared/constraint.constants.ts';
+import * as c from '../../../../shared/constraint.constants';
 
 const id = vine.number();
 const label = vine.string().minLength(1).maxLength(c.PRODUCT.LABEL_MAX);

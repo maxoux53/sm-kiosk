@@ -1,6 +1,6 @@
-import { genImgUploadUrl } from "../util/images.ts";
+import { genImgUploadUrl } from "../util/images";
 import { Request, Response } from "express";
-import { appropriateHttpStatusCode } from "../util/appropriateHttpStatusCode.ts";
+import { appropriateHttpStatusCode } from "../util/appropriateHttpStatusCode";
 
 export const upload = async (req : Request, res : Response) : Promise<void> => {
     try {

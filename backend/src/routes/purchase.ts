@@ -5,9 +5,9 @@ import {
     getAllPurchases,
     createPurchase,
     deletePurchase
-} from '../controller/purchase.ts';
+} from '../controller/purchase';
 
-import { purchaseVal } from '../middleware/validation/validator.ts';
+import { purchaseVal } from '../middleware/validation/validator';
 
 const router = Router();
 

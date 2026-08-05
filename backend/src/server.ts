@@ -1,5 +1,5 @@
 import express, { type Express } from "express";
-import { default as Router } from "./routes/index.ts";
+import { default as Router } from "./routes/index";
 import cors from "cors";
 import "dotenv/config";
 

@@ -6,11 +6,11 @@ import {
     createCategory,
     updateCategory,
     deleteCategory
-} from "../controller/category.ts";
+} from "../controller/category";
 
-import { replaceCategoryPicture } from '../middleware/image-replacement.ts';
-import { isAdmin } from "../middleware/identification.ts";
-import { categoryVal } from '../middleware/validation/validator.ts';
+import { replaceCategoryPicture } from '../middleware/image-replacement';
+import { isAdmin } from "../middleware/identification";
+import { categoryVal } from '../middleware/validation/validator';
 
 const router = Router();
 

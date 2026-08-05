@@ -1,12 +1,12 @@
 import { ValidationError } from '@vinejs/vine';
 import { Request, Response, NextFunction } from 'express';
-import * as categorySchemas from './category.ts';
-import * as productSchemas from './product.ts';
-import * as eventSchemas from './event.ts';
-import * as membershipSchemas from './membership.ts';
-import * as purchaseSchemas from './purchase.ts';
-import * as userSchemas from './user.ts';
-import * as vatSchemas from './vat.ts';
+import * as categorySchemas from './category';
+import * as productSchemas from './product';
+import * as eventSchemas from './event';
+import * as membershipSchemas from './membership';
+import * as purchaseSchemas from './purchase';
+import * as userSchemas from './user';
+import * as vatSchemas from './vat';
 
 export const categoryVal = {
     get: async (req: Request, res: Response, next: NextFunction) => {

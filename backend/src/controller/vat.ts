@@ -1,7 +1,7 @@
-import prisma from "../database/databaseORM.ts";
+import prisma from "../database/databaseORM";
 import { Request, Response } from "express";
-import { appropriateHttpStatusCode } from "../util/appropriateHttpStatusCode.ts";
-import { PrismaClientKnownRequestError } from "../generated/prisma/internal/prismaNamespace.ts";
+import { appropriateHttpStatusCode } from "../util/appropriateHttpStatusCode";
+import { PrismaClientKnownRequestError } from "../generated/prisma/internal/prismaNamespace";
 
 export const getVat = async (req : Request, res : Response) : Promise<void> => {
     try {

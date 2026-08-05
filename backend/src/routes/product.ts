@@ -3,10 +3,10 @@ import { Router } from 'express';
 import {
     getProduct,
     getAllProducts
-} from "../controller/product.ts";
+} from "../controller/product";
 
-import { isAdmin } from "../middleware/identification.ts";
-import { productVal } from '../middleware/validation/validator.ts';
+import { isAdmin } from "../middleware/identification";
+import { productVal } from '../middleware/validation/validator';
 
 const router = Router();
 

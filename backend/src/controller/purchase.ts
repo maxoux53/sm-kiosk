@@ -1,7 +1,7 @@
-import prisma from "../database/databaseORM.ts";
+import prisma from "../database/databaseORM";
 import { Request, Response } from "express";
 import { Decimal } from "@prisma/client/runtime/library";
-import { appropriateHttpStatusCode } from "../util/appropriateHttpStatusCode.ts";
+import { appropriateHttpStatusCode } from "../util/appropriateHttpStatusCode";
 
 export const getPurchase = async (req: Request, res: Response): Promise<void> => {
     try {

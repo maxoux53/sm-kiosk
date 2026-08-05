@@ -1,7 +1,7 @@
 import { JSX } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { AccountStackParamList } from "../../types/navigation.ts";
+import { AccountStackParamList } from "../../types/navigation";
 import { useAuth } from "../../contexts/AuthContext.tsx";
 
 import LoginScreen from "./LoginScreen.tsx";

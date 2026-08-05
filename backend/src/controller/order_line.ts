@@ -1,6 +1,6 @@
-import prisma from "../database/databaseORM.ts";
+import prisma from "../database/databaseORM";
 import { Request, Response } from "express";
-import { appropriateHttpStatusCode } from "../util/appropriateHttpStatusCode.ts";
+import { appropriateHttpStatusCode } from "../util/appropriateHttpStatusCode";
 
 export const getOrderLine = async (req: Request, res: Response): Promise<void> => {
     const { product_id, purchase_id } = req.body;

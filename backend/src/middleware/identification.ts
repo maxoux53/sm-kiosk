@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import { verify } from '../util/jwt.js';
 import { VerifyErrors } from 'jsonwebtoken';
-import prisma from "../database/databaseORM.ts";
-import { appropriateHttpStatusCode } from '../util/appropriateHttpStatusCode.ts';
+import prisma from "../database/databaseORM";
+import { appropriateHttpStatusCode } from '../util/appropriateHttpStatusCode';
 
 export const checkJWT = async (req: Request, res: Response, next: NextFunction) : Promise<void> => {
     const authorizationHeader = req.get('authorization');

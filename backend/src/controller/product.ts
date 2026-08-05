@@ -1,6 +1,6 @@
-import prisma from "../database/databaseORM.ts";
+import prisma from "../database/databaseORM";
 import { Request, Response } from "express";
-import { appropriateHttpStatusCode } from "../util/appropriateHttpStatusCode.ts";
+import { appropriateHttpStatusCode } from "../util/appropriateHttpStatusCode";
 
 /**
  * @swagger

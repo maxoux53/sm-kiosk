@@ -1,7 +1,7 @@
-import prisma from "../database/databaseORM.ts";
+import prisma from "../database/databaseORM";
 import { Request, Response } from "express";
-import { eraseStoredImage } from '../util/images.ts';
-import { appropriateHttpStatusCode } from "../util/appropriateHttpStatusCode.ts";
+import { eraseStoredImage } from '../util/images';
+import { appropriateHttpStatusCode } from "../util/appropriateHttpStatusCode";
 
 export const getCategory = async (req : Request, res : Response) : Promise<void> => {
     try {

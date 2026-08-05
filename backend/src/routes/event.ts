@@ -5,38 +5,38 @@ import {
     getAllEvents,
     updateEvent,
     deleteEvent
-} from "../controller/event.ts";
+} from "../controller/event";
 import {
     createProduct,
     getProductsByEvent,
     updateProduct,
     deleteProduct
-} from '../controller/product.ts';
+} from '../controller/product';
 import {
     getPurchasesByEvent
-} from '../controller/purchase.ts';
+} from '../controller/purchase';
 import { 
     createMembership ,
     deleteCashierFromEvent,
     getAllCashiersByEvent
-} from '../controller/membership.ts';
+} from '../controller/membership';
 
 import {
     eventVal, 
     membershipVal, 
     productVal, 
     purchaseVal 
-} from '../middleware/validation/validator.ts';
+} from '../middleware/validation/validator';
 
-import { replaceEventImage } from '../middleware/image-replacement.ts';
+import { replaceEventImage } from '../middleware/image-replacement';
 
 import { 
     isAdmin, 
     isHost, 
     isCashier 
-} from "../middleware/identification.ts";
+} from "../middleware/identification";
 
-import { replaceProductPicture } from '../middleware/image-replacement.ts';
+import { replaceProductPicture } from '../middleware/image-replacement';
 
 
 const router = Router();

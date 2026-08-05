@@ -1,5 +1,5 @@
 import vine from '@vinejs/vine'
-import * as c from '../../../../shared/constraint.constants.ts';
+import * as c from '../../../../shared/constraint.constants';
 
 const id = vine.number();
 const first_name = vine.string().minLength(1).maxLength(c.USER.FIRST_NAME_MAX);

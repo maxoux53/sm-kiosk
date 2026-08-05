@@ -1,6 +1,6 @@
 import vine from '@vinejs/vine'
 
-import * as c from '../../../../shared/constraint.constants.ts';
+import * as c from '../../../../shared/constraint.constants';
 
 const event_id = vine.number();
 const name = vine.string().minLength(1).maxLength(c.EVENT.NAME_MAX);

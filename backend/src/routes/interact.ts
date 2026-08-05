@@ -1,14 +1,14 @@
 import { Router } from "express";
 
-import { default as productRouter } from "./product.ts";
-import { default as categoryRouter } from "./category.ts";
-import { default as eventRouter } from "./event.ts";
-import { default as purchaseRouter } from "./purchase.ts";
-import { default as userRouter } from "./user.ts";
-import { default as vatRouter } from "./vat.ts";
-import { default as personalRouter } from "./me.ts";
+import { default as productRouter } from "./product";
+import { default as categoryRouter } from "./category";
+import { default as eventRouter } from "./event";
+import { default as purchaseRouter } from "./purchase";
+import { default as userRouter } from "./user";
+import { default as vatRouter } from "./vat";
+import { default as personalRouter } from "./me";
 
-import { self, isAdmin } from "../middleware/identification.ts";
+import { self, isAdmin } from "../middleware/identification";
 
 const router = Router();
 

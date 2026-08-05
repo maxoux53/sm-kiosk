@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import { eraseStoredImage } from '../util/images.ts';
-import prisma from '../database/databaseORM.ts'
-import { appropriateHttpStatusCode } from '../util/appropriateHttpStatusCode.ts';
+import { eraseStoredImage } from '../util/images';
+import prisma from '../database/databaseORM'
+import { appropriateHttpStatusCode } from '../util/appropriateHttpStatusCode';
 
 export const replaceEventImage = async (req: Request, res: Response, next: NextFunction) : Promise<void> => {
     if (req.body.image != undefined) {
