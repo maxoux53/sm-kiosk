@@ -1,4 +1,4 @@
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { PrismaClientKnownRequestError } from "../generated/prisma/internal/prismaNamespace";
 
 export function appropriateHttpStatusCode(e : Error) : { code: number, message: string } {
     let code;
