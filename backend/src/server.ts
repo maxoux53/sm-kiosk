@@ -1,5 +1,5 @@
 import express, { type Express } from "express";
-import { default as Router } from "./routes/index";
+import { default as router } from "./routes/index";
 import cors from "cors";
 import "dotenv/config";
 
@@ -11,7 +11,7 @@ app.use(
     cors({
         origin: "http://localhost:5173"
     }),
-    Router
+    router
 );
 
 app.listen(port, () : void => {
