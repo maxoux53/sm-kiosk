@@ -14,6 +14,12 @@ const productIdSchema = vine.object({
     id
 });
 
+const productSearchSchema = vine.object({
+    label: label.optional(),
+    offset: vine.number().min(0).optional(),
+    limit: vine.number().min(1).max(40).optional()
+});
+
 const productCreationSchema = vine.object({
     label,
     is_available,
@@ -38,6 +44,7 @@ const productsByEventSchema = vine.object({
 
 export const
     productSearch = vine.create(productIdSchema),
+    productsSearch = vine.create(productSearchSchema),
     productCreation = vine.create(productCreationSchema),
     productUpdate = vine.create(productUpdateSchema),
     productDeletion = vine.create(productIdSchema),

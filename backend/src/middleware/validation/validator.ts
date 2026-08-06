@@ -53,6 +53,14 @@ export const productVal = {
             res.status(400).send((e as ValidationError).message);
         }
     },
+    getAll: async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            req.body = await productSchemas.productsSearch.validate(req.query);
+            next();
+        } catch (e) {
+            res.status(400).send((e as ValidationError).message);
+        }
+    },
     getByEvent: async (req: Request, res: Response, next: NextFunction) => {
         try {
             req.body = await productSchemas.productsByEvent.validate(req.params);

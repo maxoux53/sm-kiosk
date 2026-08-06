@@ -2,43 +2,8 @@ import prisma from "../database/databaseORM";
 import { Request, Response } from "express";
 import { appropriateHttpStatusCode } from "../util/appropriateHttpStatusCode";
 
-/**
- * @swagger
- * components:
- *   schemas:
- *     Product:
- *       type: object
- *       properties:
- *         id:
- *           type: integer
- *         label:
- *           type: string
- *         is_available:
- *           type: boolean
- *         excl_vat_price:
- *           type: number
- *         deletion_date:
- *           type: string
- *           format: date-time
- *         category_id:
- *           type: integer
- *         event_id:
- *           type: integer
-*/
 
 
-
-/**
- * @swagger
- * components:
- *   responses:
- *     getProduct:
- *       description: The product
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/Product'
-*/
 export const getProduct = async (req : Request, res : Response) : Promise<void> => {
     try {
         const product = await prisma.product.findFirst({
@@ -85,9 +50,19 @@ export const getProduct = async (req : Request, res : Response) : Promise<void> 
 
 export const getAllProducts = async (req : Request, res : Response) : Promise<void> => {
     try {
+        const { label, offset, limit } = req.body;
+
         const products = await prisma.product.findMany({
+            skip: offset ?? 0,
+            take: limit ?? 20,
             where: {
-                deletion_date: null
+                deletion_date: null,
+                ...(label && {
+                    label: {
+                        contains: label,
+                        mode: 'insensitive'
+                    }
+                })
             },
             select: {
                 id: true,
@@ -106,6 +81,9 @@ export const getAllProducts = async (req : Request, res : Response) : Promise<vo
                         }
                     }
                 }
+            },
+            orderBy: {
+                id: 'asc'
             }
         });
 
@@ -166,20 +144,6 @@ export const getProductsByEvent = async (req : Request, res : Response) : Promis
     }
 };
 
-/**
- * @swagger
- * components:
- *   responses:
- *     ProductAdded:
- *       description: The product
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               id:
- *                 type: integer
-*/
 export const createProduct = async (req : Request, res : Response) : Promise<void> => {
     try {
         const { label, is_available, excl_vat_price, picture, category_id, event_id } = req.body;
