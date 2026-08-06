@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { default as interactRouter } from "./interact";
+import { default as interactRouter } from "./interact/index";
 
 import { login, createUser } from "../../controller/user";
 import { upload } from "../../controller/image"

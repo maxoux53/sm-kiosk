@@ -1,7 +1,7 @@
 import { Router, type Request, type Response } from "express";
 import swaggerSpec from "../../spec.json" with { type: "json" };
 
-import { default as v1Router } from "./v1";
+import { default as v1Router } from "./v1/index";
 
 const router = Router();
 
