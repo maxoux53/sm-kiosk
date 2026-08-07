@@ -1,5 +1,6 @@
 import { Router, type Request, type Response } from "express";
 import swaggerSpec from "../../spec.json" with { type: "json" };
+import { swaggerUIHTML } from "../swagger/swaggerUI";
 
 import { default as v1Router } from "./v1/index";
 
@@ -11,6 +12,14 @@ router.get(
     "/swagger.json",
     (req : Request, res : Response) : Response => {
         return res.status(200).json(swaggerSpec);
+    }
+);
+
+// Swagger UI
+router.get(
+    "/docs",
+    (req : Request, res : Response) : Response => {
+        return res.status(200).type("html").send(swaggerUIHTML);
     }
 );
 
