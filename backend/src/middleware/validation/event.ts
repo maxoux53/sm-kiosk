@@ -14,6 +14,12 @@ const eventIdSchema = vine.object({
     event_id
 });
 
+const eventsSearchSchema = vine.object({
+    search: vine.string().optional(),
+    offset: vine.number().min(0).max(10000).optional(),
+    limit: vine.number().min(1).max(40).optional()
+});
+
 const eventCreatedSchema = vine.object({
     name,
     location,
@@ -33,6 +39,7 @@ const eventUpdatedSchema = vine.object({
 
 export const
     eventSearch = vine.create(eventIdSchema),
+    eventsSearch = vine.create(eventsSearchSchema),
     eventCreation = vine.create(eventCreatedSchema),
     eventUpdate = vine.create(eventUpdatedSchema),
     eventDeletion = vine.create(eventIdSchema)

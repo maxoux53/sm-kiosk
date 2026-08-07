@@ -1,7 +1,7 @@
 import prisma from "../database/databaseORM";
+import { Prisma } from "../generated/prisma/client";
 import { Request, Response } from "express";
 import { appropriateHttpStatusCode } from "../util/appropriateHttpStatusCode";
-import { PrismaClientKnownRequestError } from "../generated/prisma/internal/prismaNamespace";
 
 export const getVat = async (req : Request, res : Response) : Promise<void> => {
     try {
@@ -26,17 +26,60 @@ export const getVat = async (req : Request, res : Response) : Promise<void> => {
 
 export const getAllVats = async (req : Request, res : Response) : Promise<void> => {
     try {
-        const vats = await prisma.vat.findMany({
-            where: {
-                deletion_date: null
-            },
-            select: {
-                type: true,
-                rate: true
+        const { search, offset, limit } = req.body;
+
+        const sanitizedOffset = offset ?? 0;
+        const sanitizedLimit = limit ?? 20;
+        const sanitizedSearch = (search !== undefined && search !== null) ? search.trim() : undefined;
+
+        const orConditions = new Array<Prisma.vatWhereInput>();
+
+        if (sanitizedSearch) {
+            if (!isNaN(Number(sanitizedSearch))) {
+                const parsedNumericSearch = Number(sanitizedSearch);
+
+                orConditions.push(
+                    { rate: { equals: parsedNumericSearch } }
+                );
+            } else {
+                // vat type is 1 char, search by exact match
+                orConditions.push(
+                    { type: { equals: sanitizedSearch, mode: "insensitive" } }
+                );
+            }
+        }
+
+        const whereClause: Prisma.vatWhereInput = {
+            deletion_date: null,
+            ...(sanitizedSearch && { OR: orConditions })
+        };
+
+        const [vats, total] = await Promise.all([
+            prisma.vat.findMany({
+                where: whereClause,
+                skip: sanitizedOffset,
+                take: sanitizedLimit,
+                select: {
+                    type: true,
+                    rate: true
+                },
+                orderBy: {
+                    type: 'asc'
+                }
+            }),
+            prisma.vat.count({
+                where: whereClause
+            })
+        ]);
+
+        res.status(200).send({
+            data: vats,
+            pagination: {
+                total,
+                offset: sanitizedOffset,
+                limit: sanitizedLimit
             }
         });
-
-        res.status(200).send(vats);
     } catch(e) {
         
         const { code, message } = appropriateHttpStatusCode(e as Error);

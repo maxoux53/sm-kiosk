@@ -1,4 +1,5 @@
 import prisma from "../database/databaseORM";
+import { Prisma } from "../generated/prisma/client";
 import { Request, Response } from "express";
 import { Decimal } from "../generated/prisma/internal/prismaNamespace";
 import { appropriateHttpStatusCode } from "../util/appropriateHttpStatusCode";
@@ -25,8 +26,51 @@ export const getPurchase = async (req: Request, res: Response): Promise<void> =>
 
 export const getAllPurchases = async (req : Request, res :Response) : Promise<void> => {
     try {
-        const purchases = await prisma.purchase.findMany({}); 
-        res.status(200).send(purchases);
+        const { search, offset, limit } = req.body;
+
+        const sanitizedOffset = offset ?? 0;
+        const sanitizedLimit = limit ?? 20;
+        const sanitizedSearch = (search !== undefined && search !== null) ? search.trim() : undefined;
+
+        const orConditions = new Array<Prisma.purchaseWhereInput>();
+
+        if (sanitizedSearch) {
+            if (!isNaN(Number(sanitizedSearch))) {
+                const parsedNumericSearch = Number(sanitizedSearch);
+
+                orConditions.push(
+                    { id: { equals: parsedNumericSearch } },
+                    { user_id: { equals: parsedNumericSearch } }
+                );
+            }
+        }
+
+        const whereClause: Prisma.purchaseWhereInput = {
+            ...(sanitizedSearch && orConditions.length > 0 && { OR: orConditions })
+        };
+
+        const [purchases, total] = await Promise.all([
+            prisma.purchase.findMany({
+                where: whereClause,
+                skip: sanitizedOffset,
+                take: sanitizedLimit,
+                orderBy: {
+                    id: 'asc'
+                }
+            }),
+            prisma.purchase.count({
+                where: whereClause
+            })
+        ]);
+
+        res.status(200).send({
+            data: purchases,
+            pagination: {
+                total,
+                offset: sanitizedOffset,
+                limit: sanitizedLimit
+            }
+        });
     } catch (e) {
         
         const { code, message } = appropriateHttpStatusCode(e as Error);

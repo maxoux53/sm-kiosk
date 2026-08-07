@@ -11,6 +11,12 @@ const categoryIdSchema = vine.object({
     id
 });
 
+const categorySearchSchema = vine.object({
+    search: vine.string().optional(),
+    offset: vine.number().min(0).max(10000).optional(),
+    limit: vine.number().min(1).max(40).optional()
+});
+
 const categoryCreationSchema = vine.object({
     label,
     vat_type,
@@ -26,6 +32,7 @@ const categoryUpdateSchema = vine.object({
 
 export const
     categorySearch = vine.create(categoryIdSchema),
+    categoriesSearch = vine.create(categorySearchSchema),
     categoryCreation = vine.create(categoryCreationSchema),
     categoryUpdate = vine.create(categoryUpdateSchema),
     categoryDeletion = vine.create(categoryIdSchema)

@@ -13,6 +13,12 @@ const userIdSchema = vine.object({
     id
 });
 
+const usersSearchSchema = vine.object({
+    search: vine.string().optional(),
+    offset: vine.number().min(0).max(10000).optional(),
+    limit: vine.number().min(1).max(40).optional()
+});
+
 const userCreatedSchema = vine.object({
     first_name,
     last_name,
@@ -38,6 +44,7 @@ const userLoginSchema = vine.object({
 
 export const
     userSearch = vine.create(userIdSchema),
+    usersSearch = vine.create(usersSearchSchema),
     userCreation = vine.create(userCreatedSchema),
     userUpdate = vine.create(userUpdatedSchema),
     userDeletion = vine.create(userIdSchema),

@@ -15,8 +15,8 @@ const productIdSchema = vine.object({
 });
 
 const productSearchSchema = vine.object({
-    label: label.optional(),
-    offset: vine.number().min(0).optional(),
+    search: vine.string().optional(),
+    offset: vine.number().min(0).max(10000).optional(),
     limit: vine.number().min(1).max(40).optional()
 });
 

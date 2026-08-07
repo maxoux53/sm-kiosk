@@ -8,11 +8,12 @@ import {
 } from '../../../controller/purchase';
 
 import { purchaseVal } from '../../../middleware/validation/validator';
+import { isAdmin } from '../../../middleware/identification';
 
 const router = Router();
 
 router.get('/:id', purchaseVal.get, getPurchase);
-router.get('/', getAllPurchases);
+router.get('/', isAdmin, purchaseVal.getAll, getAllPurchases);
 router.post('/', createPurchase);
 router.delete('/:id', purchaseVal.delete, deletePurchase);
 

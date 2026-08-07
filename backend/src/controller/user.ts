@@ -1,4 +1,5 @@
 import prisma from "../database/databaseORM";
+import { Prisma } from "../generated/prisma/client";
 import { Request, Response } from "express";
 import { hash, compare} from "../util/hash";
 import { sign } from "../util/jwt";
@@ -73,18 +74,55 @@ export const getUser = async (req: Request, res: Response): Promise<void> => {
 
 export const getAllUsers = async (req: Request, res: Response) : Promise<void> => {
     try {
-        const users = await prisma.user.findMany({
-            where: {
-                deletion_date: null
-            },
-            select: {
-                id: true,
-                first_name: true,
-                last_name: true,
-                email: true,
-                avatar: true
+        const { search, offset, limit } = req.body;
+
+        const sanitizedOffset = offset ?? 0;
+        const sanitizedLimit = limit ?? 20;
+        const sanitizedSearch = (search !== undefined && search !== null) ? search.trim() : undefined;
+
+        const orConditions = new Array<Prisma.userWhereInput>();
+
+        if (sanitizedSearch) {
+            if (!isNaN(Number(sanitizedSearch))) {
+                const parsedNumericSearch = Number(sanitizedSearch);
+
+                orConditions.push(
+                    { id: { equals: parsedNumericSearch } }
+                );
+            } else {
+                orConditions.push(
+                    { first_name: { contains: sanitizedSearch, mode: "insensitive" } },
+                    { last_name: { contains: sanitizedSearch, mode: "insensitive" } },
+                    { email: { contains: sanitizedSearch, mode: "insensitive" } }
+                );
             }
-        });
+        }
+
+        const whereClause: Prisma.userWhereInput = {
+            deletion_date: null,
+            ...(sanitizedSearch && { OR: orConditions })
+        };
+
+        const [users, total] = await Promise.all([
+            prisma.user.findMany({
+                where: whereClause,
+                skip: sanitizedOffset,
+                take: sanitizedLimit,
+                select: {
+                    id: true,
+                    first_name: true,
+                    last_name: true,
+                    email: true,
+                    avatar: true
+                },
+                orderBy: {
+                    id: 'asc'
+                }
+            }),
+            prisma.user.count({
+                where: whereClause
+            })
+        ]);
 
         for (const iUser in users) {
             if (users[iUser].avatar) {
@@ -92,7 +130,14 @@ export const getAllUsers = async (req: Request, res: Response) : Promise<void> =
             }
         }
         
-        res.status(200).send(users);
+        res.status(200).send({
+            data: users,
+            pagination: {
+                total,
+                offset: sanitizedOffset,
+                limit: sanitizedLimit
+            }
+        });
     } catch (e) {
         
         const { code, message } = appropriateHttpStatusCode(e as Error);

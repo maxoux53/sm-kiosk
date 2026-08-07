@@ -9,6 +9,12 @@ const vatIdSchema = vine.object({
     type
 });
 
+const vatsSearchSchema = vine.object({
+    search: vine.string().optional(),
+    offset: vine.number().min(0).max(10000).optional(),
+    limit: vine.number().min(1).max(40).optional()
+});
+
 const vatCreationSchema = vine.object({
     type,
     rate
@@ -21,6 +27,7 @@ const vatUpdateSchema = vine.object({
 
 export const
     vatSearch = vine.create(vatIdSchema),
+    vatsSearch = vine.create(vatsSearchSchema),
     vatCreation = vine.create(vatCreationSchema),
     vatUpdate = vine.create(vatUpdateSchema),
     vatDeletion = vine.create(vatIdSchema)

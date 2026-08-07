@@ -1,8 +1,7 @@
 import prisma from "../database/databaseORM";
+import { Prisma } from "../generated/prisma/client";
 import { Request, Response } from "express";
 import { appropriateHttpStatusCode } from "../util/appropriateHttpStatusCode";
-
-
 
 export const getProduct = async (req : Request, res : Response) : Promise<void> => {
     try {
@@ -50,50 +49,82 @@ export const getProduct = async (req : Request, res : Response) : Promise<void> 
 
 export const getAllProducts = async (req : Request, res : Response) : Promise<void> => {
     try {
-        const { label, offset, limit } = req.body;
+        const { search, offset, limit } = req.body;
+        
+        const sanitizedOffset = offset ?? 0;
+        const sanitizedLimit = limit ?? 20;
+        const sanitizedSearch = (search !== undefined && search !== null) ? search.trim() : undefined; // valeur de la recherche ou undefined si pas de recherche. évite " " qui devient 0 via Number() et est considéré comme une recherche numérique
 
-        const products = await prisma.product.findMany({
-            skip: offset ?? 0,
-            take: limit ?? 20,
-            where: {
-                deletion_date: null,
-                ...(label && {
-                    label: {
-                        contains: label,
-                        mode: 'insensitive'
-                    }
-                })
-            },
-            select: {
-                id: true,
-                label: true,
-                is_available: true,
-                excl_vat_price: true,
-                picture: true,
-                event_id: true,
-                category: {
-                    select: {
-                        id: true,
-                        vat: {
-                            select: {
-                                type: true,
+        const orConditions = new Array<Prisma.productWhereInput>();
+
+        if (sanitizedSearch) {
+            if (!isNaN(Number(sanitizedSearch))) {
+                const parsedNumericSearch = Number(sanitizedSearch);
+
+                orConditions.push(
+                    { id: { equals: parsedNumericSearch } },
+                    { excl_vat_price: { equals: parsedNumericSearch } },
+                    { event_id: { equals: parsedNumericSearch } },
+                    { category: { id: { equals: parsedNumericSearch } } }
+                );
+            } else {
+                orConditions.push(
+                    { label: { contains: sanitizedSearch, mode: "insensitive" } }
+                );
+            }
+        }
+
+        const whereClause: Prisma.productWhereInput = {
+            deletion_date: null,
+            ...(sanitizedSearch && { OR: orConditions })
+        };
+
+        const [products, total] = await Promise.all([
+            prisma.product.findMany({
+                where: whereClause,
+                skip: sanitizedOffset,
+                take: sanitizedLimit,
+                select: {
+                    id: true,
+                    label: true,
+                    is_available: true,
+                    excl_vat_price: true,
+                    picture: true,
+                    event_id: true,
+                    category: {
+                        select: {
+                            id: true,
+                            vat: {
+                                select: {
+                                    type: true,
+                                }
                             }
                         }
                     }
+                },
+                orderBy: {
+                    id: 'asc'
                 }
-            },
-            orderBy: {
-                id: 'asc'
-            }
-        });
+            }),
+            prisma.product.count({
+                where: whereClause
+            })
+        ]);
 
-        products.map((product) => {
+        products.forEach((product) => {
             if (product?.picture) {
                 product.picture = `https://imagedelivery.net/${process.env.CF_ACCOUNT_HASH}/${product.picture}/public`;
             }
         })
 
-        res.status(200).send(products);
+        res.status(200).send({
+            data: products,
+            pagination: {
+                total,
+                offset: sanitizedOffset,
+                limit: sanitizedLimit
+            }
+        });
     } catch (e) {
         
         const { code, message } = appropriateHttpStatusCode(e as Error);
@@ -130,7 +161,7 @@ export const getProductsByEvent = async (req : Request, res : Response) : Promis
             }
         });
 
-        products.map((product) => {
+        products.forEach((product) => {
             if (product?.picture) {
                 product.picture = `https://imagedelivery.net/${process.env.CF_ACCOUNT_HASH}/${product.picture}/public`;
             }

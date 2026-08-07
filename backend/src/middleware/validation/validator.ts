@@ -17,6 +17,14 @@ export const categoryVal = {
             res.status(400).send((e as ValidationError).message);
         }
     },
+    getAll: async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            req.body = await categorySchemas.categoriesSearch.validate(req.query);
+            next();
+        } catch (e) {
+            res.status(400).send((e as ValidationError).message);
+        }
+    },
     create: async (req: Request, res: Response, next: NextFunction) => {
         try {
             req.body = await categorySchemas.categoryCreation.validate(req.body);
@@ -105,6 +113,14 @@ export const eventVal = {
             res.status(400).send((e as ValidationError).message);
         }
     },
+    getAll: async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            req.body = await eventSchemas.eventsSearch.validate(req.query);
+            next();
+        } catch (e) {
+            res.status(400).send((e as ValidationError).message);
+        }
+    },
     create: async (req: Request, res: Response, next: NextFunction) => {
         try {
             req.body = await eventSchemas.eventCreation.validate(req.body);
@@ -179,6 +195,14 @@ export const purchaseVal = {
             res.status(400).send((e as ValidationError).message);
         }
     },
+    getAll: async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            req.body = await purchaseSchemas.purchasesSearch.validate(req.query);
+            next();
+        } catch (e) {
+            res.status(400).send((e as ValidationError).message);
+        }
+    },
     getByEvent: async (req: Request, res: Response, next: NextFunction) => {
         try {
             req.body = await purchaseSchemas.purchasesByEvent.validate(req.params);
@@ -209,6 +233,14 @@ export const userVal = {
     get: async (req: Request, res: Response, next: NextFunction) => {
         try {
             req.body = await userSchemas.userSearch.validate(req.params);
+            next();
+        } catch (e) {
+            res.status(400).send((e as ValidationError).message);
+        }
+    },
+    getAll: async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            req.body = await userSchemas.usersSearch.validate(req.query);
             next();
         } catch (e) {
             res.status(400).send((e as ValidationError).message);
@@ -250,6 +282,14 @@ export const userVal = {
 };
 
 export const vatVal = {
+    getAll: async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            req.body = await vatSchemas.vatsSearch.validate(req.query);
+            next();
+        } catch (e) {
+            res.status(400).send((e as ValidationError).message);
+        }
+    },
     get: async (req: Request, res: Response, next: NextFunction) => {
         try {
             req.body = await vatSchemas.vatSearch.validate(req.params);

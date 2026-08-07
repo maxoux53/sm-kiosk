@@ -1,4 +1,5 @@
 import prisma from "../database/databaseORM";
+import { Prisma } from "../generated/prisma/client";
 import { Request, Response } from "express";
 import { eraseStoredImage } from '../util/images';
 import { appropriateHttpStatusCode } from "../util/appropriateHttpStatusCode";
@@ -26,13 +27,56 @@ export const getCategory = async (req : Request, res : Response) : Promise<void>
 
 export const getAllCategories = async (req : Request, res : Response) : Promise<void> => {
     try {
-        const categories = await prisma.category.findMany({
-            where: {
-                deletion_date: null
+        const { search, offset, limit } = req.body;
+
+        const sanitizedOffset = offset ?? 0;
+        const sanitizedLimit = limit ?? 20;
+        const sanitizedSearch = (search !== undefined && search !== null) ? search.trim() : undefined;
+
+        const orConditions = new Array<Prisma.categoryWhereInput>();
+
+        if (sanitizedSearch) {
+            if (!isNaN(Number(sanitizedSearch))) {
+                const parsedNumericSearch = Number(sanitizedSearch);
+
+                orConditions.push(
+                    { id: { equals: parsedNumericSearch } },
+                    { vat_type: { equals: String.fromCharCode(parsedNumericSearch) } }
+                );
+            } else {
+                orConditions.push(
+                    { label: { contains: sanitizedSearch, mode: "insensitive" } }
+                );
+            }
+        }
+
+        const whereClause: Prisma.categoryWhereInput = {
+            deletion_date: null,
+            ...(sanitizedSearch && { OR: orConditions })
+        };
+
+        const [categories, total] = await Promise.all([
+            prisma.category.findMany({
+                where: whereClause,
+                skip: sanitizedOffset,
+                take: sanitizedLimit,
+                orderBy: {
+                    id: 'asc'
+                }
+            }),
+            prisma.category.count({
+                where: whereClause
+            })
+        ]);
+
+        res.status(200).send({
+            data: categories,
+            pagination: {
+                total,
+                offset: sanitizedOffset,
+                limit: sanitizedLimit
             }
         });
-
-        res.status(200).send(categories);
     } catch (e) {
         
         const { code, message } = appropriateHttpStatusCode(e as Error);

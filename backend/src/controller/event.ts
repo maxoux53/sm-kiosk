@@ -1,4 +1,5 @@
 import prisma from "../database/databaseORM";
+import { Prisma } from "../generated/prisma/client";
 import { Request, Response } from "express";
 import { appropriateHttpStatusCode } from "../util/appropriateHttpStatusCode";
 
@@ -28,9 +29,62 @@ export const getEvent = async (req : Request, res : Response) : Promise<void> =>
 
 export const getAllEvents = async (req : Request, res : Response) : Promise<void> => {
     try {
-        const events = await prisma.event.findMany({});
+        const { search, offset, limit } = req.body;
 
-        res.status(200).send(events);
+        const sanitizedOffset = offset ?? 0;
+        const sanitizedLimit = limit ?? 20;
+        const sanitizedSearch = (search !== undefined && search !== null) ? search.trim() : undefined;
+
+        const orConditions = new Array<Prisma.eventWhereInput>();
+
+        if (sanitizedSearch) {
+            if (!isNaN(Number(sanitizedSearch))) {
+                const parsedNumericSearch = Number(sanitizedSearch);
+
+                orConditions.push(
+                    { id: { equals: parsedNumericSearch } }
+                );
+            } else {
+                orConditions.push(
+                    { name: { contains: sanitizedSearch, mode: "insensitive" } },
+                    { location: { contains: sanitizedSearch, mode: "insensitive" } },
+                    { iban: { contains: sanitizedSearch, mode: "insensitive" } }
+                );
+            }
+        }
+
+        const whereClause: Prisma.eventWhereInput = {
+            ...(sanitizedSearch && { OR: orConditions })
+        };
+
+        const [events, total] = await Promise.all([
+            prisma.event.findMany({
+                where: whereClause,
+                skip: sanitizedOffset,
+                take: sanitizedLimit,
+                orderBy: {
+                    id: 'asc'
+                }
+            }),
+            prisma.event.count({
+                where: whereClause
+            })
+        ]);
+
+        events.map((event) => {
+            if (event?.image) {
+                event.image = `https://imagedelivery.net/${process.env.CF_ACCOUNT_HASH}/${event.image}/public`;
+            }
+        });
+
+        res.status(200).send({
+            data: events,
+            pagination: {
+                total,
+                offset: sanitizedOffset,
+                limit: sanitizedLimit
+            }
+        });
     } catch(e) {
         console.error(e)
         const { code, message } = appropriateHttpStatusCode(e as Error);
