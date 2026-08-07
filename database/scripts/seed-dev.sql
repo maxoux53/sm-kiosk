@@ -19,10 +19,10 @@ BEGIN TRANSACTION;
   ('Marchandises', 'C', '5d401cb3-aad8-4d91-2665-49d1fd737600');
 
   INSERT INTO "user" (first_name, last_name, email, password_hash, is_admin, avatar) VALUES
-  ('Jean', 'Dupont', 'jean.dupont@example.com', '$argon2id$v=19$m=65536,t=3,p=4$V000lTnXaHR9MC92KlXw9g$gkW3/en6nzYyD8B8xBwLDJzLUsPMQvN2Qvdl5ZYlSLo', TRUE, '9f0855fa-ce19-4658-292a-34d5972ba100'),
-  ('Marie', 'Martin', 'marie.martin@example.com', '$argon2id$v=19$m=65536,t=3,p=4$WP/x1wgMRo+KrjFhulmPyA$7c28Ij7ABG6BN27Km0S0oyePYFmigvY4Yfp6rKR34wo', FALSE, '9c7f5c46-9914-477f-7e58-83a82988a900'),
-  ('Pierre', 'Dubois', 'pierre.dubois@example.com', '$argon2id$v=19$m=65536,t=3,p=4$0dp8qdIlpBU/weXBh56iXw$MeOTNR7dC7+n6zSA/cNtdYEd8lTa7cba1DNzg8yWWfQ', FALSE, '2edf7a61-0e6e-4988-6b8a-613679f19f00'),
-  ('Test', 'User', 'test@dev.com', '$argon2id$v=19$m=65536,t=3,p=4$X5gnq3ODIcf1yj7fan8G8g$fgekgplCnuJTr/3vLIvtRRBnJdh4DMQKwFF4sWNeH1w', TRUE, '2edf7a61-0e6e-4988-6b8a-613679f19f00');
+  ('Jean', 'Dupont', 'jean.dupont@example.com', '$argon2id$v=19$m=65536,p=4,t=3$F51rid3PPppsIk1Yy4Esmw$UCDS9ilVNYltewLmrZ2SxDDE9GR4QlpwPuXw+ADwP/M', TRUE, '9f0855fa-ce19-4658-292a-34d5972ba100'),  -- password: jeandupont123
+  ('Marie', 'Martin', 'marie.martin@example.com', '$argon2id$v=19$m=65536,p=4,t=3$AairEWOQK9sjnxHOmg5m7w$QD5SJGMJyhQMaaKnglcSPsThCnz4kKFA1zJbzZthrNI', FALSE, '9c7f5c46-9914-477f-7e58-83a82988a900'),  -- password: mariemartin123
+  ('Pierre', 'Dubois', 'pierre.dubois@example.com', '$argon2id$v=19$m=65536,p=4,t=3$j0F5cssaD0Bwe8ossJA+zA$Uew9KeyUzymuGP4WnP0D0ASukwaNSjiMYe7464/SSpA', FALSE, '2edf7a61-0e6e-4988-6b8a-613679f19f00'),  -- password: pierredubois123
+  ('Test', 'User', 'test@dev.com', '$argon2id$v=19$m=65536,p=4,t=3$3M/9Q2ESo5EJGuHTe0Y0lQ$0kpTl5Hor0iUSWQgiNICW3XDvlekBz5jj/lh7/Nkynk', TRUE, '2edf7a61-0e6e-4988-6b8a-613679f19f00');  -- password: test123
 
   INSERT INTO event (name, location, image, iban) VALUES
   ('Festival d''Été', 'Parc Central', '9c7f5c46-9914-477f-7e58-83a82988a900', 'GB29 NWBK 6016 1331 9268 19'),
