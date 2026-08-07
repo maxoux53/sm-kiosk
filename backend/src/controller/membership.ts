@@ -2,6 +2,24 @@ import prisma from "../database/databaseORM";
 import { Request, Response } from "express";
 import { appropriateHttpStatusCode } from "../util/appropriateHttpStatusCode";
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      Membership:
+ *          type: object
+ *          properties:
+ *              user_id:
+ *                  type: integer
+ *              event_id:
+ *                  type: integer
+ *              role:
+ *                  type: string
+ *                  enum:
+ *                      - host
+ *                      - cashier
+ *                      - guest
+ */
 export const getMembership = async (req : Request, res : Response) : Promise<void> => {
     const { user_id, event_id } = req.body;
     try {
@@ -27,6 +45,39 @@ export const getMembership = async (req : Request, res : Response) : Promise<voi
     }
 }
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      Cashier:
+ *          type: object
+ *          properties:
+ *              user:
+ *                  type: object
+ *                  properties:
+ *                      id:
+ *                          type: integer
+ *                      first_name:
+ *                          type: string
+ *                      last_name:
+ *                          type: string
+ *                      email:
+ *                          type: string
+ */
+
+/**
+ * @swagger
+ * components:
+ *  responses:
+ *      CashierList:
+ *          description: a list of cashiers for an event
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: array
+ *                      items:
+ *                          $ref: '#/components/schemas/Cashier'
+ */
 export const getAllCashiersByEvent = async (req : Request, res : Response) : Promise<void> => {
     const { event_id } = req.body;
 
@@ -56,6 +107,18 @@ export const getAllCashiersByEvent = async (req : Request, res : Response) : Pro
     }
 }
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      MembershipToAdd:
+ *          type: object
+ *          properties:
+ *              user_email:
+ *                  type: string
+ *              event_id:
+ *                  type: integer
+ */
 export const createMembership = async (req : Request, res : Response) : Promise<void> => {
     const { user_email, event_id } = req.body;
 
@@ -130,6 +193,18 @@ export const deleteMembership = async (req : Request, res : Response) : Promise<
     }
 }
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      MembershipToDelete:
+ *          type: object
+ *          properties:
+ *              user_id:
+ *                  type: integer
+ *              event_id:
+ *                  type: integer
+ */
 export const deleteCashierFromEvent = async (req : Request, res : Response) : Promise<void> => {
     const { user_id, event_id } = req.body;
 

@@ -3,6 +3,48 @@ import { Prisma } from "../generated/prisma/client";
 import { Request, Response } from "express";
 import { appropriateHttpStatusCode } from "../util/appropriateHttpStatusCode";
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      Product:
+ *          type: object
+ *          properties:
+ *              id:
+ *                  type: integer
+ *              label:
+ *                  type: string
+ *              is_available:
+ *                  type: boolean
+ *              excl_vat_price:
+ *                  type: number
+ *              picture:
+ *                  type: string
+ *                  nullable: true
+ *              deletion_date:
+ *                  type: string
+ *                  format: date-time
+ *                  nullable: true
+ *              category_id:
+ *                  type: integer
+ *              event_id:
+ *                  type: integer
+ *                  nullable: true
+ *              category:
+ *                  $ref: '#/components/schemas/Category'
+ */
+
+/**
+ * @swagger
+ * components:
+ *  responses:
+ *      Product:
+ *          description: the product
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/Product'
+ */
 export const getProduct = async (req : Request, res : Response) : Promise<void> => {
     try {
         const product = await prisma.product.findFirst({
@@ -47,6 +89,31 @@ export const getProduct = async (req : Request, res : Response) : Promise<void> 
     }
 };
 
+/**
+ * @swagger
+ * components:
+ *  responses:
+ *      ProductList:
+ *          description: a list of products
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          data:
+ *                              type: array
+ *                              items:
+ *                                  $ref: '#/components/schemas/Product'
+ *                          pagination:
+ *                              type: object
+ *                              properties:
+ *                                  total:
+ *                                      type: integer
+ *                                  offset:
+ *                                      type: integer
+ *                                  limit:
+ *                                      type: integer
+ */
 export const getAllProducts = async (req : Request, res : Response) : Promise<void> => {
     try {
         const { search, offset, limit } = req.body;
@@ -175,6 +242,43 @@ export const getProductsByEvent = async (req : Request, res : Response) : Promis
     }
 };
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      ProductToAdd:
+ *          type: object
+ *          properties:
+ *              label:
+ *                  type: string
+ *              is_available:
+ *                  type: boolean
+ *              excl_vat_price:
+ *                  type: number
+ *              picture:
+ *                  type: string
+ *                  nullable: true
+ *              category_id:
+ *                  type: integer
+ *              event_id:
+ *                  type: integer
+ *                  nullable: true
+ */
+
+/**
+ * @swagger
+ * components:
+ *  responses:
+ *      ProductAdded:
+ *          description: the created product id
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          id:
+ *                              type: integer
+ */
 export const createProduct = async (req : Request, res : Response) : Promise<void> => {
     try {
         const { label, is_available, excl_vat_price, picture, category_id, event_id } = req.body;
@@ -217,6 +321,31 @@ export const createProduct = async (req : Request, res : Response) : Promise<voi
     }
 };
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      ProductToUpdate:
+ *          type: object
+ *          properties:
+ *              product_id:
+ *                  type: integer
+ *              label:
+ *                  type: string
+ *              is_available:
+ *                  type: boolean
+ *              excl_vat_price:
+ *                  type: number
+ *              deletion_date:
+ *                  type: string
+ *                  format: date-time
+ *                  nullable: true
+ *              picture:
+ *                  type: string
+ *                  nullable: true
+ *              category_id:
+ *                  type: integer
+ */
 export const updateProduct = async (req : Request, res : Response) : Promise<void> => {
     const { product_id, label, is_available, excl_vat_price, deletion_date, picture, category_id } = req.body;
     
@@ -244,6 +373,16 @@ export const updateProduct = async (req : Request, res : Response) : Promise<voi
     }
 };
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      ProductToDelete:
+ *          type: object
+ *          properties:
+ *              product_id:
+ *                  type: integer
+ */
 export const deleteProduct = async (req : Request, res : Response) : Promise<void> => {
     try {
         await prisma.product.update({

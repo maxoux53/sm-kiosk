@@ -6,6 +6,56 @@ import { sign } from "../util/jwt";
 import { eraseStoredImage } from '../util/images';
 import { appropriateHttpStatusCode } from "../util/appropriateHttpStatusCode";
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      LoginRequest:
+ *          type: object
+ *          properties:
+ *              email:
+ *                  type: string
+ *              password:
+ *                  type: string
+ */
+
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      LoginResponse:
+ *          type: object
+ *          properties:
+ *              token:
+ *                  type: string
+ *              user:
+ *                  type: object
+ *                  properties:
+ *                      id:
+ *                          type: integer
+ *                      is_admin:
+ *                          type: boolean
+ */
+
+/**
+ * @swagger
+ * components:
+ *  responses:
+ *      LoginSuccess:
+ *          description: successful login
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/LoginResponse'
+ */
+
+/**
+ * @swagger
+ * components:
+ *  responses:
+ *      UnauthorizedError:
+ *          description: unauthorized
+ */
 export const login = async (req: Request, res: Response) : Promise<void> => {
     const { email, password } = req.body;
 
@@ -39,6 +89,39 @@ export const login = async (req: Request, res: Response) : Promise<void> => {
     }
 };
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      User:
+ *          type: object
+ *          properties:
+ *              id:
+ *                  type: integer
+ *              first_name:
+ *                  type: string
+ *              last_name:
+ *                  type: string
+ *              email:
+ *                  type: string
+ *              avatar:
+ *                  type: string
+ *                  nullable: true
+ *              is_admin:
+ *                  type: boolean
+ */
+
+/**
+ * @swagger
+ * components:
+ *  responses:
+ *      User:
+ *          description: the user
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/User'
+ */
 export const getUser = async (req: Request, res: Response): Promise<void> => {
     try {
         const user = await prisma.user.findFirst({
@@ -72,6 +155,31 @@ export const getUser = async (req: Request, res: Response): Promise<void> => {
     }
 };
 
+/**
+ * @swagger
+ * components:
+ *  responses:
+ *      UserList:
+ *          description: a list of users
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          data:
+ *                              type: array
+ *                              items:
+ *                                  $ref: '#/components/schemas/User'
+ *                          pagination:
+ *                              type: object
+ *                              properties:
+ *                                  total:
+ *                                      type: integer
+ *                                  offset:
+ *                                      type: integer
+ *                                  limit:
+ *                                      type: integer
+ */
 export const getAllUsers = async (req: Request, res: Response) : Promise<void> => {
     try {
         const { search, offset, limit } = req.body;
@@ -145,6 +253,42 @@ export const getAllUsers = async (req: Request, res: Response) : Promise<void> =
     }
 };
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      UserToAdd:
+ *          type: object
+ *          properties:
+ *              first_name:
+ *                  type: string
+ *              last_name:
+ *                  type: string
+ *              email:
+ *                  type: string
+ *              password:
+ *                  type: string
+ *              is_admin:
+ *                  type: boolean
+ *              avatar:
+ *                  type: string
+ *                  nullable: true
+ */
+
+/**
+ * @swagger
+ * components:
+ *  responses:
+ *      UserAdded:
+ *          description: the created user id
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          id:
+ *                              type: integer
+ */
 export const createUser = async (req: Request, res: Response) : Promise<void> => {
     const { first_name, last_name, email, password, is_admin, avatar } = req.body;
     
@@ -198,6 +342,27 @@ export const deleteUser = async (req: Request, res: Response) : Promise<void> =>
     }
 };
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      UserToUpdate:
+ *          type: object
+ *          properties:
+ *              id:
+ *                  type: integer
+ *              first_name:
+ *                  type: string
+ *              last_name:
+ *                  type: string
+ *              email:
+ *                  type: string
+ *              password:
+ *                  type: string
+ *              avatar:
+ *                  type: string
+ *                  nullable: true
+ */
 export const updateUser = async (req: Request, res: Response) : Promise<void> => {
     const { id, first_name, last_name, email, avatar } = req.body;
     const password_hash = (req.body.password ? await hash(req.body.password) : undefined);

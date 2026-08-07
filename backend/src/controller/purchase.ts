@@ -4,6 +4,56 @@ import { Request, Response } from "express";
 import { Decimal } from "../generated/prisma/internal/prismaNamespace";
 import { appropriateHttpStatusCode } from "../util/appropriateHttpStatusCode";
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      OrderLine:
+ *          type: object
+ *          properties:
+ *              product_id:
+ *                  type: integer
+ *              purchase_id:
+ *                  type: integer
+ *              quantity:
+ *                  type: integer
+ *              price:
+ *                  type: number
+ */
+
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      Purchase:
+ *          type: object
+ *          properties:
+ *              id:
+ *                  type: integer
+ *              date:
+ *                  type: string
+ *                  format: date-time
+ *              user_id:
+ *                  type: integer
+ *              is_served:
+ *                  type: boolean
+ *              order_line:
+ *                  type: array
+ *                  items:
+ *                      $ref: '#/components/schemas/OrderLine'
+ */
+
+/**
+ * @swagger
+ * components:
+ *  responses:
+ *      Purchase:
+ *          description: the purchase
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/Purchase'
+ */
 export const getPurchase = async (req: Request, res: Response): Promise<void> => {
     try {
         const purchase = await prisma.purchase.findUnique({
@@ -24,6 +74,31 @@ export const getPurchase = async (req: Request, res: Response): Promise<void> =>
     }
 };
 
+/**
+ * @swagger
+ * components:
+ *  responses:
+ *      PurchaseList:
+ *          description: a list of purchases
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          data:
+ *                              type: array
+ *                              items:
+ *                                  $ref: '#/components/schemas/Purchase'
+ *                          pagination:
+ *                              type: object
+ *                              properties:
+ *                                  total:
+ *                                      type: integer
+ *                                  offset:
+ *                                      type: integer
+ *                                  limit:
+ *                                      type: integer
+ */
 export const getAllPurchases = async (req : Request, res :Response) : Promise<void> => {
     try {
         const { search, offset, limit } = req.body;
@@ -170,6 +245,31 @@ export const getPurchasesByEvent = async (req : Request, res :Response) : Promis
     }
 }
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      PurchaseToAdd:
+ *          type: object
+ *          properties:
+ *              order_lines:
+ *                  type: array
+ *                  items:
+ *                      type: object
+ *                      properties:
+ *                          product_id:
+ *                              type: integer
+ *                          quantity:
+ *                              type: integer
+ */
+
+/**
+ * @swagger
+ * components:
+ *  responses:
+ *      PurchaseAdded:
+ *          description: the purchase has been created
+ */
 export const createPurchase = async (req: Request, res: Response): Promise<void> => {
     const { order_lines } = req.body;
 

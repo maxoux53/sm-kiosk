@@ -8,8 +8,19 @@ const location = vine.string().minLength(1).maxLength(c.EVENT.LOCATION_MAX);
 const image = vine.string().optional();
 const is_active = vine.boolean().optional();
 const iban = vine.string().minLength(1).maxLength(c.EVENT.IBAN_MAX);
-const user_id = vine.number().optional();
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      EventIdSchema:
+ *          type: object
+ *          properties:
+ *              event_id:
+ *                  type: integer
+ *          required:
+ *              - event_id
+ */
 const eventIdSchema = vine.object({
     event_id
 });
@@ -20,6 +31,28 @@ const eventsSearchSchema = vine.object({
     limit: vine.number().min(1).max(40).optional()
 });
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      EventToAdd:
+ *          type: object
+ *          properties:
+ *              name:
+ *                  type: string
+ *              location:
+ *                  type: string
+ *              image:
+ *                  type: string
+ *              is_active:
+ *                  type: boolean
+ *              iban:
+ *                  type: string
+ *          required:
+ *              - name
+ *              - location
+ *              - iban
+ */
 const eventCreatedSchema = vine.object({
     name,
     location,
@@ -28,6 +61,28 @@ const eventCreatedSchema = vine.object({
     iban,
 });
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      EventToUpdate:
+ *          type: object
+ *          properties:
+ *              id:
+ *                  type: integer
+ *              name:
+ *                  type: string
+ *              location:
+ *                  type: string
+ *              image:
+ *                  type: string
+ *              is_active:
+ *                  type: boolean
+ *              iban:
+ *                  type: string
+ *          required:
+ *              - id
+ */
 const eventUpdatedSchema = vine.object({
     id: vine.number(),
     name: name.optional(),

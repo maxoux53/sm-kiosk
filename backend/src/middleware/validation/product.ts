@@ -10,6 +10,18 @@ const picture = vine.string().optional();
 const category_id = vine.number();
 const event_id = vine.number();
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      ProductIdSchema:
+ *          type: object
+ *          properties:
+ *              id:
+ *                  type: integer
+ *          required:
+ *              - id
+ */
 const productIdSchema = vine.object({
     id
 });
@@ -20,6 +32,31 @@ const productSearchSchema = vine.object({
     limit: vine.number().min(1).max(40).optional()
 });
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      ProductToAdd:
+ *          type: object
+ *          properties:
+ *              label:
+ *                  type: string
+ *              is_available:
+ *                  type: boolean
+ *              excl_vat_price:
+ *                  type: number
+ *              category_id:
+ *                  type: integer
+ *              picture:
+ *                  type: string
+ *              event_id:
+ *                  type: integer
+ *          required:
+ *              - label
+ *              - excl_vat_price
+ *              - category_id
+ *              - event_id
+ */
 const productCreationSchema = vine.object({
     label,
     is_available,
@@ -29,6 +66,28 @@ const productCreationSchema = vine.object({
     event_id
 });
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      ProductToUpdate:
+ *          type: object
+ *          properties:
+ *              id:
+ *                  type: integer
+ *              label:
+ *                  type: string
+ *              is_available:
+ *                  type: boolean
+ *              excl_vat_price:
+ *                  type: number
+ *              category_id:
+ *                  type: integer
+ *              picture:
+ *                  type: string
+ *          required:
+ *              - id
+ */
 const productUpdateSchema = vine.object({
     id,
     label: label.optional(),
@@ -38,6 +97,18 @@ const productUpdateSchema = vine.object({
     picture
 });
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      ProductsByEventSchema:
+ *          type: object
+ *          properties:
+ *              event_id:
+ *                  type: integer
+ *          required:
+ *              - event_id
+ */
 const productsByEventSchema = vine.object({
     event_id
 });

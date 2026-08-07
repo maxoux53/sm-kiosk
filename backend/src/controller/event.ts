@@ -3,6 +3,39 @@ import { Prisma } from "../generated/prisma/client";
 import { Request, Response } from "express";
 import { appropriateHttpStatusCode } from "../util/appropriateHttpStatusCode";
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      Event:
+ *          type: object
+ *          properties:
+ *              id:
+ *                  type: integer
+ *              name:
+ *                  type: string
+ *              location:
+ *                  type: string
+ *              image:
+ *                  type: string
+ *                  nullable: true
+ *              is_active:
+ *                  type: boolean
+ *              iban:
+ *                  type: string
+ */
+
+/**
+ * @swagger
+ * components:
+ *  responses:
+ *      Event:
+ *          description: the event
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/Event'
+ */
 export const getEvent = async (req : Request, res : Response) : Promise<void> => {
     try {
         const event = await prisma.event.findUnique({
@@ -27,6 +60,31 @@ export const getEvent = async (req : Request, res : Response) : Promise<void> =>
     }
 }
 
+/**
+ * @swagger
+ * components:
+ *  responses:
+ *      EventList:
+ *          description: a list of events
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          data:
+ *                              type: array
+ *                              items:
+ *                                  $ref: '#/components/schemas/Event'
+ *                          pagination:
+ *                              type: object
+ *                              properties:
+ *                                  total:
+ *                                      type: integer
+ *                                  offset:
+ *                                      type: integer
+ *                                  limit:
+ *                                      type: integer
+ */
 export const getAllEvents = async (req : Request, res : Response) : Promise<void> => {
     try {
         const { search, offset, limit } = req.body;
@@ -115,6 +173,40 @@ export const getEventsByUser = async (req : Request, res : Response) : Promise<v
     }
 }
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      EventToAdd:
+ *          type: object
+ *          properties:
+ *              name:
+ *                  type: string
+ *              location:
+ *                  type: string
+ *              is_active:
+ *                  type: boolean
+ *              iban:
+ *                  type: string
+ *              image:
+ *                  type: string
+ *                  nullable: true
+ */
+
+/**
+ * @swagger
+ * components:
+ *  responses:
+ *      EventAdded:
+ *          description: the created event id
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          id:
+ *                              type: integer
+ */
 export const createEvent = async (req : Request, res : Response) : Promise<void> => {
     const { name, location, is_active, iban, image } = req.body;
 
@@ -147,6 +239,27 @@ export const createEvent = async (req : Request, res : Response) : Promise<void>
     }
 }
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      EventToUpdate:
+ *          type: object
+ *          properties:
+ *              id:
+ *                  type: integer
+ *              name:
+ *                  type: string
+ *              location:
+ *                  type: string
+ *              is_active:
+ *                  type: boolean
+ *              iban:
+ *                  type: string
+ *              image:
+ *                  type: string
+ *                  nullable: true
+ */
 export const updateEvent = async (req : Request, res : Response) : Promise<void> => {
     const { id, name, location, is_active, iban, image } = req.body;
 

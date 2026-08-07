@@ -7,6 +7,18 @@ const label = vine.string().minLength(1).maxLength(c.CATEGORY.LABEL_MAX);
 const vat_type = vine.string().minLength(1).maxLength(c.VAT.TYPE_MAX);
 const picture = vine.string();
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      CategoryIdSchema:
+ *          type: object
+ *          properties:
+ *              id:
+ *                  type: integer
+ *          required:
+ *              - id
+ */
 const categoryIdSchema = vine.object({
     id
 });
@@ -17,12 +29,48 @@ const categorySearchSchema = vine.object({
     limit: vine.number().min(1).max(40).optional()
 });
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      CategoryToAdd:
+ *          type: object
+ *          properties:
+ *              label:
+ *                  type: string
+ *              vat_type:
+ *                  type: string
+ *              picture:
+ *                  type: string
+ *          required:
+ *              - label
+ *              - vat_type
+ *              - picture
+ */
 const categoryCreationSchema = vine.object({
     label,
     vat_type,
     picture
 });
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      CategoryToUpdate:
+ *          type: object
+ *          properties:
+ *              id:
+ *                  type: integer
+ *              label:
+ *                  type: string
+ *              vat_type:
+ *                  type: string
+ *              picture:
+ *                  type: string
+ *          required:
+ *              - id
+ */
 const categoryUpdateSchema = vine.object({
     id,
     label: label.optional(),

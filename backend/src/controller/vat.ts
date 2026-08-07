@@ -3,6 +3,34 @@ import { Prisma } from "../generated/prisma/client";
 import { Request, Response } from "express";
 import { appropriateHttpStatusCode } from "../util/appropriateHttpStatusCode";
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      Vat:
+ *          type: object
+ *          properties:
+ *              type:
+ *                  type: string
+ *              rate:
+ *                  type: integer
+ *              deletion_date:
+ *                  type: string
+ *                  format: date-time
+ *                  nullable: true
+ */
+
+/**
+ * @swagger
+ * components:
+ *  responses:
+ *      Vat:
+ *          description: the VAT
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/Vat'
+ */
 export const getVat = async (req : Request, res : Response) : Promise<void> => {
     try {
         const vat = await prisma.vat.findFirst({
@@ -24,6 +52,31 @@ export const getVat = async (req : Request, res : Response) : Promise<void> => {
     }
 };
 
+/**
+ * @swagger
+ * components:
+ *  responses:
+ *      VatList:
+ *          description: a list of VATs
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          data:
+ *                              type: array
+ *                              items:
+ *                                  $ref: '#/components/schemas/Vat'
+ *                          pagination:
+ *                              type: object
+ *                              properties:
+ *                                  total:
+ *                                      type: integer
+ *                                  offset:
+ *                                      type: integer
+ *                                  limit:
+ *                                      type: integer
+ */
 export const getAllVats = async (req : Request, res : Response) : Promise<void> => {
     try {
         const { search, offset, limit } = req.body;
@@ -87,6 +140,18 @@ export const getAllVats = async (req : Request, res : Response) : Promise<void> 
     }
 };
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      VatToAdd:
+ *          type: object
+ *          properties:
+ *              type:
+ *                  type: string
+ *              rate:
+ *                  type: integer
+ */
 export const createVat = async (req : Request, res : Response) : Promise<void> => {
     try {
         await prisma.vat.create({
@@ -104,6 +169,18 @@ export const createVat = async (req : Request, res : Response) : Promise<void> =
     }
 }
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      VatToUpdate:
+ *          type: object
+ *          properties:
+ *              type:
+ *                  type: string
+ *              rate:
+ *                  type: integer
+ */
 export const updateVat = async (req : Request, res : Response) : Promise<void> => {
     try {
         await prisma.vat.update({
