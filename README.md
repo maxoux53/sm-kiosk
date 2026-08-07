@@ -3,7 +3,7 @@
     <h1>SM Kiosk</h1>
 </div>
 
-Une solution complète permettant la gestion de commandes (passage, paiement et suivi) lors d'événements, composée d'une application web (back-office), d'une application mobile (client) et d'un backend (API REST).
+API REST permettant la gestion de commandes (passage, paiement et suivi) lors d'événements.
 
 ## Table des matières
 
@@ -11,12 +11,6 @@ Une solution complète permettant la gestion de commandes (passage, paiement et 
 2. [Fonctionnalités](#fonctionnalités)
 3. [Installation et lancement](#installation-et-lancement)
 4. [Technologies utilisées](#technologies-utilisées)
-    - [Frontend](#frontend)
-        - [Web](#web)
-        - [Mobile](#mobile)
-    - [Backend](#backend)
-    - [Base de données](#base-de-données)
-    - [Modélisation](#modélisation)
 5. [Structure de la base de données](#structure-de-la-base-de-données)
 6. [Informations sur la licence](#informations-sur-la-licence)
 
@@ -30,31 +24,10 @@ Une solution complète permettant la gestion de commandes (passage, paiement et 
 
 ## Technologies utilisées
 
-### Frontend
-
-#### Web
-
-- React
-- Vite
-- [PicoCSS](https://github.com/picocss/pico)
-
-#### Mobile
-
-- React Native
-- Expo
-
-### Backend
-
 - Node.js
 - Express
 - Prisma ORM
-
-### Base de données
-
 - PostgreSQL
-
-### Modélisation
-
 - Draw.io (entité-association et relationnel)
 
 ## Structure de la base de données

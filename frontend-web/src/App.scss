@@ -1,7 +1,0 @@
-@use "sass:map";
-@use "@picocss/pico/scss/pico" as * with (
-    $theme-color: "azure",
-    $semantic-root-element: "#root",
-    $enable-semantic-container: true,
-    $enable-classes: false
-);

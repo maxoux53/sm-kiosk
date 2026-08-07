@@ -1,50 +1,46 @@
 {
-  "name": "smartkiosk",
-  "private": true,
-  "type": "module",
-  "description": "monorepo Smart Kiosk",
-  "workspaces": [
-    "backend",
-    "frontend-web",
-    "frontend-mobile"
-  ],
-  "scripts": {
-    "backend": "npm run type-check:backend && npm run dev --workspace=backend",
-    "web": "npm run type-check:web && npm run dev --workspace=frontend-web",
-    "mobile": "npm run type-check:mobile && npm run start --workspace=frontend-mobile",
-    "ios": "npm run type-check:mobile && npm run ios --workspace=frontend-mobile",
-    "android": "npm run type-check:mobile && npm run android --workspace=frontend-mobile",
-    "format-check": "prettier --check .",
-    "format-fix": "prettier --write .",
-    "type-check:all": "npm run type-check:backend && npm run type-check:web && npm run type-check:mobile",
-    "type-check:backend": "cd backend && tsc --noEmit",
-    "type-check:web": "cd frontend-web && tsc --noEmit",
-    "type-check:mobile": "cd frontend-mobile && tsc --noEmit",
-    "lint:all": "eslint .",
-    "lint:backend": "eslint backend",
-    "lint:web": "eslint frontend-web",
-    "lint:mobile": "eslint frontend-mobile",
-    "build:web": "npm run type-check:web && npm run build --workspace=frontend-web",
-    "clean": "find . -name \"node_modules\" -type d -exec rm -rf {} + && find . -name \"build\" -type d -exec rm -rf {} + && find . -name \"dist\" -type d -exec rm -rf {} +"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.36.0",
-    "@types/node": "^24.10.0",
-    "eslint": "^9.39.0",
-    "eslint-config-prettier": "^10.1.8",
-    "prettier": "^3.6.2",
-    "tsx": "^4.20.6",
-    "typescript": "^5.9.3",
-    "typescript-eslint": "^8.46.2",
-    "eslint-config-expo": "^10.0.0",
-    "eslint-plugin-react": "^7.37.2",
-    "eslint-plugin-react-hooks": "^5.0.0",
-    "eslint-plugin-react-refresh": "^0.4.16",
-    "eslint-plugin-react-x": "^1.5.1",
-    "eslint-plugin-react-dom": "^1.1.0",
-    "globals": "^15.12.0"
-  },
-  "dependencies": {
-    "react-native-gesture-handler": "~2.28.0"
-  }
+    "name": "smartkiosk",
+    "version": "1.0.0",
+    "private": true,
+    "type": "module",
+    "description": "Backend API for Smart Kiosk",
+    "main": "dist/server.js",
+    "scripts": {
+        "dev": "tsx watch src/server.ts",
+        "build": "tsc",
+        "start": "node dist/server.js",
+        "type-check": "tsc --noEmit",
+        "genDoc": "tsx ./src/swagger/swagger_doc.ts",
+        "format-check": "prettier --check .",
+        "lint": "eslint .",
+        "clean": "rm -rf node_modules dist && find . -name \"*.tsbuildinfo\" -type f -delete"
+    },
+    "dependencies": {
+        "@prisma/adapter-pg": "^7.9.1",
+        "@prisma/client": "^7.9.1",
+        "@vinejs/vine": "^4.4.0",
+        "argon2": "^0.45.1",
+        "cloudflare": "^7.0.0",
+        "cors": "^2.8.6",
+        "dotenv": "^17.4.2",
+        "express": "^5.1.0",
+        "jsonwebtoken": "^9.0.2",
+        "pg": "^8.22.0"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.36.0",
+        "@types/cors": "^2.8.19",
+        "@types/express": "^5.0.6",
+        "@types/jsonwebtoken": "^9.0.10",
+        "@types/node": "^24.10.0",
+        "@types/swagger-jsdoc": "^6.0.4",
+        "eslint": "^9.39.0",
+        "eslint-config-prettier": "^10.1.8",
+        "prettier": "^3.6.2",
+        "prisma": "^7.9.1",
+        "swagger-jsdoc": "^6.3.0",
+        "tsx": "^4.20.6",
+        "typescript": "^5.9.3",
+        "typescript-eslint": "^8.46.2"
+    }
 }
