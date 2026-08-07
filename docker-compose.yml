@@ -1,7 +1,7 @@
 services:
   db:
-    container_name: postgres_db
-    image: postgres
+    container_name: sm_kiosk_db_container
+    image: postgres:latest
     environment:
       POSTGRES_USER: ${PG_USER}
       POSTGRES_PASSWORD: ${PG_PASSWORD}
