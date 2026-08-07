@@ -8,7 +8,6 @@ import {
 } from "../../../controller/purchase";
 
 import { purchaseVal } from "../../../middleware/validation/validator";
-import { isAdmin } from "../../../middleware/identification";
 
 const router = Router();
 
@@ -88,7 +87,7 @@ router.get("/:id", purchaseVal.get, getPurchase);
  *          500:
  *              description: Error server
  */
-router.get("/", isAdmin, purchaseVal.getAll, getAllPurchases);
+router.get("/", purchaseVal.getAll, getAllPurchases);
 
 /**
  * @swagger
