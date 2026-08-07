@@ -5,15 +5,13 @@ const swaggerSpec = swaggerJSDoc({
     definition: {
         openapi: "3.0.0",
         info: {
-            title: "SmartKiosk API",
-            version: "1.0.0",
-            description: "API REST pour le système SmartKiosk",
+            title: "SMKiosk API",
+            version: "1.0.0"
         }
     },
     apis: [
         "./src/controller/**/*.ts",
         "./src/middleware/**/*.ts",
-        "./src/model/**/*.ts",
         "./src/routes/**/*.ts"
     ]
 });
