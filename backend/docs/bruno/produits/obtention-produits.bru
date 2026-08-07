@@ -5,9 +5,15 @@ meta {
 }
 
 get {
-  url: http://localhost:3001/v1/interact/product/
+  url: http://localhost:3001/v1/interact/product/?search=&offset=0&limit=20
   body: none
   auth: bearer
+}
+
+params:query {
+  search: 
+  offset: 0
+  limit: 20
 }
 
 auth:bearer {

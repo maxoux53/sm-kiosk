@@ -5,18 +5,17 @@ meta {
 }
 
 get {
-  url: http://localhost:3001/v1/interact/user/
+  url: http://localhost:3001/v1/interact/user/?search=&offset=0&limit=20
   body: none
   auth: bearer
 }
 
-auth:bearer {
-  token: 
+params:query {
+  search: 
+  offset: 0
+  limit: 20
 }
 
-body:json {
-  {
-    "id": 14,
-    "first_name": "alloqodiozeu"
-  }
+auth:bearer {
+  token: 
 }

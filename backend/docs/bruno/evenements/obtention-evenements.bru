@@ -5,7 +5,17 @@ meta {
 }
 
 get {
-  url: http://localhost:3001/v1/interact/event/
+  url: http://localhost:3001/v1/interact/event/?search=&offset=0&limit=20
   body: none
   auth: bearer
+}
+
+params:query {
+  search: 
+  offset: 0
+  limit: 20
+}
+
+auth:bearer {
+  token: 
 }
