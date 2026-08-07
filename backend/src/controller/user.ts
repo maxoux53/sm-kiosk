@@ -5,6 +5,7 @@ import { hash, compare} from "../util/hash";
 import { sign } from "../util/jwt";
 import { eraseStoredImage } from '../util/images';
 import { appropriateHttpStatusCode } from "../util/appropriateHttpStatusCode";
+import { PAGINATION_LIMIT_DEFAULT_SIZE } from '../../../shared/constraint-constants';
 
 /**
  * @swagger
@@ -185,7 +186,7 @@ export const getAllUsers = async (req: Request, res: Response) : Promise<void> =
         const { search, offset, limit } = req.body;
 
         const sanitizedOffset = offset ?? 0;
-        const sanitizedLimit = limit ?? 20;
+        const sanitizedLimit = limit ?? PAGINATION_LIMIT_DEFAULT_SIZE;
         const sanitizedSearch = (search !== undefined && search !== null) ? search.trim() : undefined;
 
         const orConditions = new Array<Prisma.userWhereInput>();

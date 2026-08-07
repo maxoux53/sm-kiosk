@@ -2,6 +2,7 @@ import prisma from "../database/databaseORM";
 import { Prisma } from "../generated/prisma/client";
 import { Request, Response } from "express";
 import { appropriateHttpStatusCode } from "../util/appropriateHttpStatusCode";
+import { PAGINATION_LIMIT_DEFAULT_SIZE } from '../../../shared/constraint-constants';
 
 /**
  * @swagger
@@ -82,7 +83,7 @@ export const getAllVats = async (req : Request, res : Response) : Promise<void> 
         const { search, offset, limit } = req.body;
 
         const sanitizedOffset = offset ?? 0;
-        const sanitizedLimit = limit ?? 20;
+        const sanitizedLimit = limit ?? PAGINATION_LIMIT_DEFAULT_SIZE;
         const sanitizedSearch = (search !== undefined && search !== null) ? search.trim() : undefined;
 
         const orConditions = new Array<Prisma.vatWhereInput>();

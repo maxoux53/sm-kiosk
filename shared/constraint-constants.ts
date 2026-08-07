@@ -27,4 +27,4 @@ export const VAT = {
     RATE_MAX: 100
 };
 
-export const LAZY_LOADING_PAGE_DEFAULT_SIZE = 20;
+export const PAGINATION_LIMIT_DEFAULT_SIZE = 20;

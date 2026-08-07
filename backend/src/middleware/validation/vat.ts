@@ -1,6 +1,6 @@
 import vine from '@vinejs/vine'
 
-import * as c from '../../../../shared/constraint.constants';
+import * as c from '../../../../shared/constraint-constants';
 
 const type = vine.string().minLength(1).maxLength(c.VAT.TYPE_MAX);
 const rate = vine.number().min(c.VAT.RATE_MIN).max(c.VAT.RATE_MAX);

@@ -3,6 +3,7 @@ import { Prisma } from "../generated/prisma/client";
 import { Request, Response } from "express";
 import { eraseStoredImage } from '../util/images';
 import { appropriateHttpStatusCode } from "../util/appropriateHttpStatusCode";
+import { PAGINATION_LIMIT_DEFAULT_SIZE } from '../../../shared/constraint-constants';
 
 /**
  * @swagger
@@ -87,7 +88,7 @@ export const getAllCategories = async (req : Request, res : Response) : Promise<
         const { search, offset, limit } = req.body;
 
         const sanitizedOffset = offset ?? 0;
-        const sanitizedLimit = limit ?? 20;
+        const sanitizedLimit = limit ?? PAGINATION_LIMIT_DEFAULT_SIZE;
         const sanitizedSearch = (search !== undefined && search !== null) ? search.trim() : undefined;
 
         const orConditions = new Array<Prisma.categoryWhereInput>();
