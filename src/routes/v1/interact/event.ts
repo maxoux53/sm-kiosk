@@ -26,11 +26,12 @@ import {
     purchaseVal
 } from "../../../middleware/validation/validator";
 
-import { replaceEventImage } from "../../../middleware/image-replacement";
+import {
+    replaceEventImage,
+    replaceProductPicture
+} from "../../../middleware/image-replacement";
 
 import { isAdmin, isHost, isCashier } from "../../../middleware/identification";
-
-import { replaceProductPicture } from "../../../middleware/image-replacement";
 
 const router = Router();
 
@@ -382,7 +383,7 @@ router.post("/:event_id/product", productVal.create, isHost, createProduct);
 
 /**
  * @swagger
- * /v1/interact/event/{event_id}/product:
+ * /v1/interact/event/{event_id}/product/{product_id}:
  *  patch:
  *      security:
  *          - bearerAuth: []
@@ -395,6 +396,12 @@ router.post("/:event_id/product", productVal.create, isHost, createProduct);
  *             type: integer
  *           required: true
  *           description: Numeric ID of the event
+ *         - in: path
+ *           name: product_id
+ *           schema:
+ *             type: integer
+ *           required: true
+ *           description: Numeric ID of the product to update
  *      requestBody:
  *          content:
  *              application/json:
@@ -414,8 +421,8 @@ router.post("/:event_id/product", productVal.create, isHost, createProduct);
  *          500:
  *              description: Error server
  */
-router.post(
-    "/:event_id/product",
+router.patch(
+    "/:event_id/product/:product_id",
     productVal.update,
     isCashier,
     replaceProductPicture,
@@ -424,7 +431,7 @@ router.post(
 
 /**
  * @swagger
- * /v1/interact/event/{event_id}/product:
+ * /v1/interact/event/{event_id}/product/{product_id}:
  *  delete:
  *      security:
  *          - bearerAuth: []
@@ -437,11 +444,12 @@ router.post(
  *             type: integer
  *           required: true
  *           description: Numeric ID of the event
- *      requestBody:
- *          content:
- *              application/json:
- *                  schema:
- *                      $ref: '#/components/schemas/ProductToDelete'
+ *         - in: path
+ *           name: product_id
+ *           schema:
+ *             type: integer
+ *           required: true
+ *           description: Numeric ID of the product to delete
  *      responses:
  *          204:
  *              description: product deleted
@@ -456,7 +464,7 @@ router.post(
  *          500:
  *              description: Error server
  */
-router.post("/:event_id/product", productVal.delete, isHost, deleteProduct);
+router.delete("/:event_id/product/:product_id", productVal.delete, isHost, deleteProduct);
 
 /**
  * @swagger

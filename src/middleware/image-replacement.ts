@@ -37,7 +37,7 @@ export const replaceUserAvatar = async (
     res: Response,
     next: NextFunction
 ): Promise<void> => {
-    if (req.body.image != undefined) {
+    if (req.body.avatar != undefined) {
         try {
             const user = await prisma.user.findUnique({
                 where: {
@@ -106,7 +106,9 @@ export const replaceCategoryPicture = async (
                 }
             });
 
-            await eraseStoredImage(category!.picture);
+            if (category?.picture != null) {
+                await eraseStoredImage(category.picture);
+            }
         } catch (e) {
             const { code, message } = appropriateHttpStatusCode(e as Error);
             res.status(code).send(message);

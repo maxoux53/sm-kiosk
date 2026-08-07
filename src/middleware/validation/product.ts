@@ -113,6 +113,18 @@ const productsByEventSchema = vine.object({
     event_id
 });
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      ProductToDelete:
+ *          type: object
+ *          properties:
+ *              product_id:
+ *                  type: integer
+ *          required:
+ *              - product_id
+ */
 const productDeletionSchema = vine.object({
     product_id: id
 });

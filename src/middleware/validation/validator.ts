@@ -98,6 +98,7 @@ export const productVal = {
     },
     update: async (req: Request, res: Response, next: NextFunction) => {
         try {
+            req.body.id = req.params.product_id;
             req.body = await productSchemas.productUpdate.validate(req.body);
             next();
         } catch (e) {

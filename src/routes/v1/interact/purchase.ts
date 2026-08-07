@@ -115,7 +115,7 @@ router.get("/", isAdmin, purchaseVal.getAll, getAllPurchases);
  *          500:
  *              description: Error server
  */
-router.post("/", createPurchase);
+router.post("/", purchaseVal.create, createPurchase);
 
 /**
  * @swagger
