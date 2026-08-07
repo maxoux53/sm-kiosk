@@ -60,3 +60,4 @@ project.xcworkspace
 
 ### JetBrains ###
 .idea/
+backend/spec.json
