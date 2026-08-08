@@ -1,11 +1,12 @@
 services:
   db:
     container_name: sm_kiosk_db_container
-    image: postgres:latest
+    image: postgres:16-alpine
     environment:
       POSTGRES_USER: ${PG_USER}
       POSTGRES_PASSWORD: ${PG_PASSWORD}
       POSTGRES_DB: ${PG_DB}
+      PGDATA: /var/lib/postgresql/data/pgdata
     ports:
       - "5432:5432"
     volumes:
@@ -13,6 +14,11 @@ services:
       - ./database/scripts:/docker-entrypoint-initdb.d
     networks:
       - sm-kiosk-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${PG_USER} -d ${PG_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   api:
     container_name: sm_kiosk_api_container
@@ -30,7 +36,8 @@ services:
     ports:
       - "${PORT:-3001}:3001"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     networks:
       - sm-kiosk-network
     restart: unless-stopped
