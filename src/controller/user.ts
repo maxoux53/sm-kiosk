@@ -237,7 +237,8 @@ export const getAllUsers = async (
                     first_name: true,
                     last_name: true,
                     email: true,
-                    avatar: true
+                    avatar: true,
+                    is_admin: true
                 },
                 orderBy: {
                     id: "asc"

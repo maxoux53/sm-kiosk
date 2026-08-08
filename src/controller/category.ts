@@ -20,10 +20,6 @@ import { PAGINATION_LIMIT_DEFAULT_SIZE } from "../constraint-constants";
  *                  type: string
  *              picture:
  *                  type: string
- *              deletion_date:
- *                  type: string
- *                  format: date-time
- *                  nullable: true
  */
 
 /**
@@ -46,10 +42,20 @@ export const getCategory = async (
             where: {
                 id: req.body.id,
                 deletion_date: null
+            },
+            select: {
+                id: true,
+                label: true,
+                vat_type: true,
+                picture: true
             }
         });
 
         if (category) {
+            if (category.picture) {
+                category.picture = `https://imagedelivery.net/${process.env.CF_ACCOUNT_HASH}/${category.picture}/public`;
+            }
+
             res.status(200).send(category);
         } else {
             res.sendStatus(404);
@@ -128,6 +134,12 @@ export const getAllCategories = async (
                 where: whereClause,
                 skip: sanitizedOffset,
                 take: sanitizedLimit,
+                select: {
+                    id: true,
+                    label: true,
+                    vat_type: true,
+                    picture: true
+                },
                 orderBy: {
                     id: "asc"
                 }
@@ -136,6 +148,12 @@ export const getAllCategories = async (
                 where: whereClause
             })
         ]);
+
+        categories.forEach((category) => {
+            if (category?.picture) {
+                category.picture = `https://imagedelivery.net/${process.env.CF_ACCOUNT_HASH}/${category.picture}/public`;
+            }
+        });
 
         res.status(200).send({
             data: categories,
