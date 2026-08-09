@@ -1,49 +1,11 @@
 # Installation
 
-## Prérequis
-
-- [Docker](https://www.docker.com/) (avec Docker Compose)
-
 ## Étapes
 
-1. **Cloner le dépôt**
-
+1. Dézipper le fichier téléchargé.
+2. Ouvrir un terminal et naviguer jusqu'au répertoire du projet.
+3. Executer la commande suivante :
    ```bash
-   git clone https://github.com/maxoux53/sm-kiosk.git
-   cd sm-kiosk
+   docker-compose up --build -d
    ```
-
-2. **Configurer les variables d'environnement**
-
-   ```bash
-   cp example.env .env
-   ```
-
-   Renseigner les valeurs dans `.env` (utilisateur/mot de passe PostgreSQL, secrets JWT, identifiants Cloudflare).
-
-3. **Lancer le projet**
-
-   ```bash
-   docker compose up --build
-   ```
-
-   La base de données est créée et remplie automatiquement au démarrage (tables + données de seed).
-
-## Accès
-
-| Service | URL |
-|---|---|
-| API | http://localhost:3001 |
-| Documentation Swagger | http://localhost:3001/docs |
-
-## Arrêt
-
-```bash
-docker compose down
-```
-
-Pour tout supprimer (conteneurs + données) :
-
-```bash
-docker compose down -v
-```
+4. Se conneter à l'aide des identifiants trouvés login.txt
