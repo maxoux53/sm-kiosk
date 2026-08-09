@@ -1,0 +1,15 @@
+Login administrateur 1
+email: jean.dupont@example.com
+mot-de-passe: jeandupont123
+
+Login client 1
+email: marie.martin@example.com
+mot-de-passe: mariemartin123
+
+Login administrateur 2
+email: test@dev.com
+mot-de-passe: test123
+
+Login client 2
+email: pierre.dubois@example.com
+mot-de-passe: pierredubois123
