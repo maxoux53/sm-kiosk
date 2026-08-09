@@ -12,5 +12,12 @@ export async function genImgUploadUrl(): Promise<DirectUploadCreateResponse> {
 }
 
 export async function eraseStoredImage(imageId: string): Promise<void> {
-    console.log(await client.images.v1.delete(imageId, { account_id })); // pas clair ce que ça retourne
+    try {
+        await client.images.v1.delete(imageId, { account_id });
+    } catch (e) {
+        console.error(
+            `Impossible de supprimer l'image "${imageId}" sur Cloudflare :`,
+            e
+        );
+    }
 }
