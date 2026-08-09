@@ -345,7 +345,7 @@ export const createProduct = async (
  *      ProductToUpdate:
  *          type: object
  *          properties:
- *              product_id:
+ *              id:
  *                  type: integer
  *              label:
  *                  type: string
@@ -353,10 +353,6 @@ export const createProduct = async (
  *                  type: boolean
  *              excl_vat_price:
  *                  type: number
- *              deletion_date:
- *                  type: string
- *                  format: date-time
- *                  nullable: true
  *              picture:
  *                  type: string
  *                  nullable: true
@@ -372,7 +368,6 @@ export const updateProduct = async (
         label,
         is_available,
         excl_vat_price,
-        deletion_date,
         picture,
         category_id
     } = req.body;
@@ -387,7 +382,6 @@ export const updateProduct = async (
                 label,
                 is_available,
                 excl_vat_price,
-                deletion_date,
                 picture,
                 category_id
             }
@@ -417,7 +411,7 @@ export const deleteProduct = async (
     try {
         await prisma.product.update({
             where: {
-                id: req.body.product_id
+                id: req.body.id
             },
             data: {
                 deletion_date: new Date()

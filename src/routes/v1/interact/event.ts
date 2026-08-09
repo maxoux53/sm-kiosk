@@ -7,10 +7,7 @@ import {
     deleteEvent
 } from "../../../controller/event";
 import {
-    createProduct,
-    getProductsByEvent,
-    updateProduct,
-    deleteProduct
+    getProductsByEvent
 } from "../../../controller/product";
 import { getPurchasesByEvent } from "../../../controller/purchase";
 import {
@@ -27,8 +24,7 @@ import {
 } from "../../../middleware/validation/validator";
 
 import {
-    replaceEventImage,
-    replaceProductPicture
+    replaceEventImage
 } from "../../../middleware/image-replacement";
 
 import { isAdmin, isHost, isCashier } from "../../../middleware/identification";
@@ -338,133 +334,6 @@ router.delete(
  *              description: Error server
  */
 router.get("/:event_id/products", productVal.getByEvent, getProductsByEvent);
-
-/**
- * @swagger
- * /v1/interact/event/{event_id}/product:
- *  post:
- *      security:
- *          - bearerAuth: []
- *      tags:
- *          - Product
- *      parameters:
- *         - in: path
- *           name: event_id
- *           schema:
- *             type: integer
- *           required: true
- *           description: Numeric ID of the event
- *      requestBody:
- *          content:
- *              application/json:
- *                  schema:
- *                      $ref: '#/components/schemas/ProductToAdd'
- *      responses:
- *          201:
- *              $ref: '#/components/responses/ProductAdded'
- *          400:
- *              description: the error(s) described
- *              content:
- *                  text/plain:
- *                      schema:
- *                          type: string
- *          401:
- *              $ref: '#/components/responses/UnauthorizedError'
- *          404:
- *              description: category not found
- *              content:
- *                  text/plain:
- *                      schema:
- *                          type: string
- *          500:
- *              description: Error server
- */
-router.post("/:event_id/product", productVal.create, isHost, createProduct);
-
-/**
- * @swagger
- * /v1/interact/event/{event_id}/product/{product_id}:
- *  patch:
- *      security:
- *          - bearerAuth: []
- *      tags:
- *          - Product
- *      parameters:
- *         - in: path
- *           name: event_id
- *           schema:
- *             type: integer
- *           required: true
- *           description: Numeric ID of the event
- *         - in: path
- *           name: product_id
- *           schema:
- *             type: integer
- *           required: true
- *           description: Numeric ID of the product to update
- *      requestBody:
- *          content:
- *              application/json:
- *                  schema:
- *                      $ref: '#/components/schemas/ProductToUpdate'
- *      responses:
- *          204:
- *              description: product updated
- *          400:
- *              description: the error(s) described
- *              content:
- *                  text/plain:
- *                      schema:
- *                          type: string
- *          401:
- *              $ref: '#/components/responses/UnauthorizedError'
- *          500:
- *              description: Error server
- */
-router.patch(
-    "/:event_id/product/:product_id",
-    productVal.update,
-    isCashier,
-    replaceProductPicture,
-    updateProduct
-);
-
-/**
- * @swagger
- * /v1/interact/event/{event_id}/product/{product_id}:
- *  delete:
- *      security:
- *          - bearerAuth: []
- *      tags:
- *          - Product
- *      parameters:
- *         - in: path
- *           name: event_id
- *           schema:
- *             type: integer
- *           required: true
- *           description: Numeric ID of the event
- *         - in: path
- *           name: product_id
- *           schema:
- *             type: integer
- *           required: true
- *           description: Numeric ID of the product to delete
- *      responses:
- *          204:
- *              description: product deleted
- *          400:
- *              description: the error(s) described
- *              content:
- *                  text/plain:
- *                      schema:
- *                          type: string
- *          401:
- *              $ref: '#/components/responses/UnauthorizedError'
- *          500:
- *              description: Error server
- */
-router.delete("/:event_id/product/:product_id", productVal.delete, isHost, deleteProduct);
 
 /**
  * @swagger

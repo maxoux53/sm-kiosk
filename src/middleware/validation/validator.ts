@@ -89,7 +89,6 @@ export const productVal = {
     },
     create: async (req: Request, res: Response, next: NextFunction) => {
         try {
-            req.body.event_id = req.params.event_id;
             req.body = await productSchemas.productCreation.validate(req.body);
             next();
         } catch (e) {
@@ -98,7 +97,7 @@ export const productVal = {
     },
     update: async (req: Request, res: Response, next: NextFunction) => {
         try {
-            req.body.id = req.params.product_id;
+            req.body.id = req.params.id;
             req.body = await productSchemas.productUpdate.validate(req.body);
             next();
         } catch (e) {

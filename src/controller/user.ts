@@ -310,8 +310,7 @@ export const createUser = async (
     req: Request,
     res: Response
 ): Promise<void> => {
-    const { first_name, last_name, email, password, is_admin, avatar } =
-        req.body;
+    const { first_name, last_name, email, password, is_admin, avatar } = req.body;
 
     try {
         const newUser = await prisma.user.create({

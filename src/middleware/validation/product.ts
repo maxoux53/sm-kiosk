@@ -120,13 +120,13 @@ const productsByEventSchema = vine.object({
  *      ProductToDelete:
  *          type: object
  *          properties:
- *              product_id:
+ *              id:
  *                  type: integer
  *          required:
- *              - product_id
+ *              - id
  */
 const productDeletionSchema = vine.object({
-    product_id: id
+    id
 });
 
 export const productSearch = vine.create(productIdSchema),
