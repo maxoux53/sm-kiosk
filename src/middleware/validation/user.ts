@@ -103,6 +103,37 @@ const userUpdatedSchema = vine.object({
  * @swagger
  * components:
  *  schemas:
+ *      UserSignup:
+ *          type: object
+ *          properties:
+ *              first_name:
+ *                  type: string
+ *              last_name:
+ *                  type: string
+ *              email:
+ *                  type: string
+ *              password:
+ *                  type: string
+ *              avatar:
+ *                  type: string
+ *          required:
+ *              - first_name
+ *              - last_name
+ *              - email
+ *              - password
+ */
+const userSignupSchema = vine.object({
+    first_name,
+    last_name,
+    email,
+    password,
+    avatar
+});
+
+/**
+ * @swagger
+ * components:
+ *  schemas:
  *      LoginRequest:
  *          type: object
  *          properties:
@@ -122,6 +153,7 @@ const userLoginSchema = vine.object({
 export const userSearch = vine.create(userIdSchema),
     usersSearch = vine.create(usersSearchSchema),
     userCreation = vine.create(userCreatedSchema),
+    userSignup = vine.create(userSignupSchema),
     userUpdate = vine.create(userUpdatedSchema),
     userDeletion = vine.create(userIdSchema),
     userLogin = vine.create(userLoginSchema);

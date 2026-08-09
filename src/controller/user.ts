@@ -84,6 +84,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
             res.sendStatus(401);
         }
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }
@@ -149,6 +150,7 @@ export const getUser = async (req: Request, res: Response): Promise<void> => {
             res.sendStatus(404);
         }
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }
@@ -265,6 +267,7 @@ export const getAllUsers = async (
             }
         });
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }
@@ -310,7 +313,7 @@ export const createUser = async (
     req: Request,
     res: Response
 ): Promise<void> => {
-    const { first_name, last_name, email, password, is_admin, avatar } = req.body;
+    const { first_name, last_name, email, password, is_admin = false, avatar } = req.body;
 
     try {
         const newUser = await prisma.user.create({
@@ -329,6 +332,7 @@ export const createUser = async (
 
         res.status(201).send(newUser);
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }
@@ -358,6 +362,7 @@ export const deleteUser = async (
 
         res.sendStatus(204);
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }
@@ -408,6 +413,7 @@ export const updateUser = async (
 
         res.sendStatus(204);
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }

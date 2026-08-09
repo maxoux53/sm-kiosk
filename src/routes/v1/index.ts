@@ -47,7 +47,7 @@ router.post("/login", userVal.login, login);
  *          content:
  *              application/json:
  *                  schema:
- *                      $ref: '#/components/schemas/UserToAdd'
+ *                      $ref: '#/components/schemas/UserSignup'
  *      responses:
  *          201:
  *              $ref: '#/components/responses/UserAdded'
@@ -60,7 +60,7 @@ router.post("/login", userVal.login, login);
  *          500:
  *              description: Error server
  */
-router.post("/signup", userVal.create, createUser);
+router.post("/signup", userVal.signup, createUser);
 
 /**
  * @swagger

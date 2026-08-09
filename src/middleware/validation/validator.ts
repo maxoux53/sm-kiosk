@@ -16,6 +16,7 @@ export const categoryVal = {
             );
             next();
         } catch (e) {
+            console.error(e);
             res.status(400).send((e as ValidationError).message);
         }
     },
@@ -26,6 +27,7 @@ export const categoryVal = {
             );
             next();
         } catch (e) {
+            console.error(e);
             res.status(400).send((e as ValidationError).message);
         }
     },
@@ -36,6 +38,7 @@ export const categoryVal = {
             );
             next();
         } catch (e) {
+            console.error(e);
             res.status(400).send((e as ValidationError).message);
         }
     },
@@ -45,6 +48,7 @@ export const categoryVal = {
             req.body = await categorySchemas.categoryUpdate.validate(req.body);
             next();
         } catch (e) {
+            console.error(e);
             res.status(400).send((e as ValidationError).message);
         }
     },
@@ -55,6 +59,7 @@ export const categoryVal = {
             );
             next();
         } catch (e) {
+            console.error(e);
             res.status(400).send((e as ValidationError).message);
         }
     }
@@ -66,6 +71,7 @@ export const productVal = {
             req.body = await productSchemas.productSearch.validate(req.params);
             next();
         } catch (e) {
+            console.error(e);
             res.status(400).send((e as ValidationError).message);
         }
     },
@@ -74,6 +80,7 @@ export const productVal = {
             req.body = await productSchemas.productsSearch.validate(req.query);
             next();
         } catch (e) {
+            console.error(e);
             res.status(400).send((e as ValidationError).message);
         }
     },
@@ -84,6 +91,7 @@ export const productVal = {
             );
             next();
         } catch (e) {
+            console.error(e);
             res.status(400).send((e as ValidationError).message);
         }
     },
@@ -92,6 +100,7 @@ export const productVal = {
             req.body = await productSchemas.productCreation.validate(req.body);
             next();
         } catch (e) {
+            console.error(e);
             res.status(400).send((e as ValidationError).message);
         }
     },
@@ -101,6 +110,7 @@ export const productVal = {
             req.body = await productSchemas.productUpdate.validate(req.body);
             next();
         } catch (e) {
+            console.error(e);
             res.status(400).send((e as ValidationError).message);
         }
     },
@@ -111,6 +121,7 @@ export const productVal = {
             );
             next();
         } catch (e) {
+            console.error(e);
             res.status(400).send((e as ValidationError).message);
         }
     }
@@ -122,6 +133,7 @@ export const eventVal = {
             req.body = await eventSchemas.eventSearch.validate(req.params);
             next();
         } catch (e) {
+            console.error(e);
             res.status(400).send((e as ValidationError).message);
         }
     },
@@ -130,6 +142,7 @@ export const eventVal = {
             req.body = await eventSchemas.eventsSearch.validate(req.query);
             next();
         } catch (e) {
+            console.error(e);
             res.status(400).send((e as ValidationError).message);
         }
     },
@@ -138,6 +151,7 @@ export const eventVal = {
             req.body = await eventSchemas.eventCreation.validate(req.body);
             next();
         } catch (e) {
+            console.error(e);
             res.status(400).send((e as ValidationError).message);
         }
     },
@@ -147,6 +161,7 @@ export const eventVal = {
             req.body = await eventSchemas.eventUpdate.validate(req.body);
             next();
         } catch (e) {
+            console.error(e);
             res.status(400).send((e as ValidationError).message);
         }
     },
@@ -155,6 +170,7 @@ export const eventVal = {
             req.body = await eventSchemas.eventDeletion.validate(req.params);
             next();
         } catch (e) {
+            console.error(e);
             res.status(400).send((e as ValidationError).message);
         }
     }
@@ -167,6 +183,7 @@ export const membershipVal = {
             req.body = await membershipSchemas.eventJoin.validate(req.body);
             next();
         } catch (e) {
+            console.error(e);
             res.status(400).send((e as ValidationError).message);
         }
     },
@@ -181,6 +198,7 @@ export const membershipVal = {
             );
             next();
         } catch (e) {
+            console.error(e);
             res.status(400).send((e as ValidationError).message);
         }
     },
@@ -192,6 +210,7 @@ export const membershipVal = {
             );
             next();
         } catch (e) {
+            console.error(e);
             res.status(400).send((e as ValidationError).message);
         }
     },
@@ -203,6 +222,7 @@ export const membershipVal = {
             );
             next();
         } catch (e) {
+            console.error(e);
             res.status(400).send((e as ValidationError).message);
         }
     }
@@ -216,6 +236,7 @@ export const purchaseVal = {
             );
             next();
         } catch (e) {
+            console.error(e);
             res.status(400).send((e as ValidationError).message);
         }
     },
@@ -226,6 +247,7 @@ export const purchaseVal = {
             );
             next();
         } catch (e) {
+            console.error(e);
             res.status(400).send((e as ValidationError).message);
         }
     },
@@ -236,6 +258,7 @@ export const purchaseVal = {
             );
             next();
         } catch (e) {
+            console.error(e);
             res.status(400).send((e as ValidationError).message);
         }
     },
@@ -246,6 +269,7 @@ export const purchaseVal = {
             );
             next();
         } catch (e) {
+            console.error(e);
             res.status(400).send((e as ValidationError).message);
         }
     },
@@ -256,6 +280,7 @@ export const purchaseVal = {
             );
             next();
         } catch (e) {
+            console.error(e);
             res.status(400).send((e as ValidationError).message);
         }
     }
@@ -267,6 +292,7 @@ export const userVal = {
             req.body = await userSchemas.userSearch.validate(req.params);
             next();
         } catch (e) {
+            console.error(e);
             res.status(400).send((e as ValidationError).message);
         }
     },
@@ -275,6 +301,7 @@ export const userVal = {
             req.body = await userSchemas.usersSearch.validate(req.query);
             next();
         } catch (e) {
+            console.error(e);
             res.status(400).send((e as ValidationError).message);
         }
     },
@@ -283,6 +310,7 @@ export const userVal = {
             req.body = await userSchemas.userCreation.validate(req.body);
             next();
         } catch (e) {
+            console.error(e);
             res.status(400).send((e as ValidationError).message);
         }
     },
@@ -292,6 +320,7 @@ export const userVal = {
             req.body = await userSchemas.userUpdate.validate(req.body);
             next();
         } catch (e) {
+            console.error(e);
             res.status(400).send((e as ValidationError).message);
         }
     },
@@ -300,6 +329,7 @@ export const userVal = {
             req.body = await userSchemas.userDeletion.validate(req.params);
             next();
         } catch (e) {
+            console.error(e);
             res.status(400).send((e as ValidationError).message);
         }
     },
@@ -308,6 +338,16 @@ export const userVal = {
             req.body = await userSchemas.userLogin.validate(req.body);
             next();
         } catch (e) {
+            console.error(e);
+            res.status(400).send((e as ValidationError).message);
+        }
+    },
+    signup: async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            req.body = await userSchemas.userSignup.validate(req.body);
+            next();
+        } catch (e) {
+            console.error(e);
             res.status(400).send((e as ValidationError).message);
         }
     }
@@ -319,6 +359,7 @@ export const vatVal = {
             req.body = await vatSchemas.vatsSearch.validate(req.query);
             next();
         } catch (e) {
+            console.error(e);
             res.status(400).send((e as ValidationError).message);
         }
     },
@@ -327,6 +368,7 @@ export const vatVal = {
             req.body = await vatSchemas.vatSearch.validate(req.params);
             next();
         } catch (e) {
+            console.error(e);
             res.status(400).send((e as ValidationError).message);
         }
     },
@@ -335,6 +377,7 @@ export const vatVal = {
             req.body = await vatSchemas.vatCreation.validate(req.body);
             next();
         } catch (e) {
+            console.error(e);
             res.status(400).send((e as ValidationError).message);
         }
     },
@@ -344,6 +387,7 @@ export const vatVal = {
             req.body = await vatSchemas.vatUpdate.validate(req.body);
             next();
         } catch (e) {
+            console.error(e);
             res.status(400).send((e as ValidationError).message);
         }
     },
@@ -352,6 +396,7 @@ export const vatVal = {
             req.body = await vatSchemas.vatDeletion.validate(req.params);
             next();
         } catch (e) {
+            console.error(e);
             res.status(400).send((e as ValidationError).message);
         }
     }
