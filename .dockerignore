@@ -10,7 +10,6 @@ dist
 Thumbs.db
 .vscode
 coverage
-database/scripts
 docs/bruno
 docker-compose*.yml
 Dockerfile
