@@ -56,6 +56,7 @@ export const getEvent = async (req: Request, res: Response): Promise<void> => {
             res.sendStatus(404);
         }
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }
@@ -249,6 +250,7 @@ export const createEvent = async (
 
         res.status(201).send(newEvent);
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }
@@ -295,6 +297,7 @@ export const updateEvent = async (
 
         res.sendStatus(204);
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }
@@ -328,22 +331,22 @@ export const deleteEvent = async (
             return;
         }
 
-        // Soft-delete les produits et l'événement
-        prisma.product.updateMany({
-            where: {
-                event_id: req.body.event_id,
-                deletion_date: null
-            },
-            data: {
-                deletion_date: new Date()
-            }
-        });
-
-        prisma.event.delete({
-            where: {
-                id: req.body.event_id
-            }
-        });
+        await prisma.$transaction([
+            prisma.product.updateMany({
+                where: {
+                    event_id: req.body.event_id,
+                    deletion_date: null
+                },
+                data: {
+                    deletion_date: new Date()
+                }
+            }),
+            prisma.event.delete({
+                where: {
+                    id: req.body.event_id
+                }
+            })
+        ]);
 
         // Supprime les images sur Cloudflare
         if (event.image) {
@@ -357,6 +360,7 @@ export const deleteEvent = async (
 
         res.sendStatus(204);
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }
