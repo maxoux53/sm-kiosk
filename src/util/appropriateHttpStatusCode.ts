@@ -6,92 +6,100 @@ import {
 
 
 const prismaErrorCodes: Record<string, number> = { // https://www.prisma.io/docs/orm/reference/error-reference#prisma-client-query-engine
-    P2000: 400, // valeur trop longue pour la colonne
-    P2001: 404, // l'enregistrement recherché dans le "where" n'existe pas
-    P2002: 409, // violation de contrainte unique
-    P2003: 409, // violation de contrainte de clé étrangère
-    P2004: 400, // contrainte échouée sur la base de données
-    P2005: 400, // valeur invalide stockée pour le type du champ
-    P2006: 400, // valeur fournie invalide pour le champ
-    P2007: 400, // erreur de validation des données
-    P2011: 400, // violation de contrainte NOT NULL
-    P2012: 400, // valeur requise manquante
-    P2013: 400, // argument requis manquant
-    P2014: 409, // la modification violerait une relation requise
-    P2015: 404, // enregistrement lié introuvable
-    P2016: 400, // erreur d'interprétation de la requête
-    P2017: 400, // enregistrements de la relation non connectés
-    P2018: 404, // enregistrements liés requis introuvables
-    P2019: 400, // erreur de saisie
-    P2020: 400, // valeur hors limites pour le type
-    P2025: 404 // opération impossible car un enregistrement requis est introuvable
+    P2000: 400,
+    P2001: 404,
+    P2002: 409,
+    P2003: 409,
+    P2004: 400,
+    P2005: 400,
+    P2006: 400,
+    P2007: 400,
+    P2011: 400,
+    P2012: 400,
+    P2013: 400,
+    P2014: 409,
+    P2015: 404,
+    P2016: 400,
+    P2017: 400,
+    P2018: 404,
+    P2019: 400,
+    P2020: 400,
+    P2025: 404
 };
 
 function buildPrismaErrorMessage(code: string, meta: Record<string, unknown> | undefined): string {
     if (!meta) {
-        return `Database error [${code}].`;
+        return `Erreur de base de données [${code}].`;
     }
 
     switch (code) {
         case "P2000":
-            return `The provided value is too long for the column \`${meta.column_name}\`.`;
+            return `La valeur fournie est trop longue pour la colonne \`${meta.column_name}\`.`;
 
         case "P2001":
-            return `No record found matching the criteria: \`${meta.model_name}.${meta.argument_name} = ${meta.argument_value}\`.`;
+            return `Aucun enregistrement trouvé correspondant aux critères : \`${meta.model_name}.${meta.argument_name} = ${meta.argument_value}\`.`;
 
-        case "P2002":
-            return `A unique constraint would be violated on \`${meta.target ?? meta.constraint}\`.`;
+        case "P2002": {
+            const target = meta.target;
+            if (Array.isArray(target) && target.length) {
+                return `Une contrainte d'unicité serait violée sur \`${target.join(", ")}\`.`;
+            }
+            if (typeof meta.constraint === "string") {
+                return `Une contrainte d'unicité serait violée sur \`${meta.constraint}\`.`;
+            }
+            return `Une contrainte d'unicité serait violée.`;
+        }
 
         case "P2003":
-            return `Foreign key constraint failed on the field \`${meta.field_name}\`.`;
+            return `La contrainte de clé étrangère a échoué sur le champ \`${meta.field_name}\`.`;
 
         case "P2004":
-            return `A database constraint failed: ${meta.database_error}.`;
+            return `Une contrainte de base de données a échoué : ${meta.database_error}.`;
 
         case "P2005":
-            return `The value stored for field \`${meta.field_name}\` is invalid for the column type.`;
+            return `La valeur stockée pour le champ \`${meta.field_name}\` est invalide pour le type de la colonne.`;
 
         case "P2006":
-            return `The provided value for \`${meta.model_name}.${meta.field_name}\` is invalid.`;
+            return `La valeur fournie pour \`${meta.model_name}.${meta.field_name}\` est invalide.`;
 
         case "P2007":
-            return `Data validation error: ${meta.database_error}.`;
+            return `Erreur de validation des données : ${meta.database_error}.`;
 
         case "P2011":
-            return `Null constraint violation on \`${meta.constraint}\`. A required field was not provided.`;
+            return `Violation de contrainte NOT NULL sur \`${meta.constraint}\`. Un champ obligatoire n'a pas été fourni.`;
 
         case "P2012":
-            return `Missing a required value at \`${meta.path}\`.`;
+            return `Valeur obligatoire manquante à \`${meta.path}\`.`;
 
         case "P2013":
-            return `Missing required argument \`${meta.argument_name}\` for field \`${meta.field_name}\` on \`${meta.object_name}\`.`;
+            return `Argument obligatoire manquant \`${meta.argument_name}\` pour le champ \`${meta.field_name}\` sur \`${meta.object_name}\`.`;
 
         case "P2014":
-            return `This change would violate the required relation \`${meta.relation_name}\` between \`${meta.model_a_name}\` and \`${meta.model_b_name}\`.`;
+            return `Cette modification violerait la relation obligatoire \`${meta.relation_name}\` entre \`${meta.model_a_name}\` et \`${meta.model_b_name}\`.`;
 
         case "P2015":
-            return `A related record could not be found: ${meta.details}.`;
+            return `Un enregistrement lié est introuvable : ${meta.details}.`;
 
         case "P2016":
-            return `Query interpretation error: ${meta.details}.`;
+            return `Erreur d'interprétation de la requête : ${meta.details}.`;
 
         case "P2017":
-            return `The records for relation \`${meta.relation_name}\` between \`${meta.parent_name}\` and \`${meta.child_name}\` are not connected.`;
+            return `Les enregistrements de la relation \`${meta.relation_name}\` entre \`${meta.parent_name}\` et \`${meta.child_name}\` ne sont pas connectés.`;
 
         case "P2018":
-            return `The required connected records were not found: ${meta.details}.`;
+            return `Les enregistrements liés requis sont introuvables : ${meta.details}.`;
 
         case "P2019":
-            return `Input error: ${meta.details}.`;
+            return `Erreur de saisie : ${meta.details}.`;
 
         case "P2020":
-            return `Value out of range for the column type: ${meta.details}.`;
+            return `Valeur hors limites pour le type de la colonne : ${meta.details}.`;
 
         case "P2025":
-            return `The requested operation failed because a required record was not found: ${meta.cause}.`;
+            return `L'opération demandée a échoué car un enregistrement requis est introuvable : ${meta.cause}.`;
 
         default:
-            return `Database error [${code}].`;
+            return `Erreur de base de données [${code}].`;
     }
 }
 
@@ -104,7 +112,7 @@ export function appropriateHttpStatusCode(e: Error): {code: number; message: str
     }
 
     if (e instanceof PrismaClientValidationError) {
-        return { code: 400, message: "Validation error: the request data is malformed." };
+        return { code: 400, message: "Erreur de validation : les données de la requête sont mal formées." };
     }
 
     if (e instanceof CloudflareAPIError) {
