@@ -27,19 +27,84 @@ const prismaErrorCodes: Record<string, number> = { // https://www.prisma.io/docs
     P2025: 404 // opération impossible car un enregistrement requis est introuvable
 };
 
-export function appropriateHttpStatusCode(e: Error): {
-    code: number;
-    message: string;
-} {
+function buildPrismaErrorMessage(code: string, meta: Record<string, unknown> | undefined): string {
+    if (!meta) {
+        return `Database error [${code}].`;
+    }
+
+    switch (code) {
+        case "P2000":
+            return `The provided value is too long for the column \`${meta.column_name}\`.`;
+
+        case "P2001":
+            return `No record found matching the criteria: \`${meta.model_name}.${meta.argument_name} = ${meta.argument_value}\`.`;
+
+        case "P2002":
+            return `A unique constraint would be violated on \`${meta.target ?? meta.constraint}\`.`;
+
+        case "P2003":
+            return `Foreign key constraint failed on the field \`${meta.field_name}\`.`;
+
+        case "P2004":
+            return `A database constraint failed: ${meta.database_error}.`;
+
+        case "P2005":
+            return `The value stored for field \`${meta.field_name}\` is invalid for the column type.`;
+
+        case "P2006":
+            return `The provided value for \`${meta.model_name}.${meta.field_name}\` is invalid.`;
+
+        case "P2007":
+            return `Data validation error: ${meta.database_error}.`;
+
+        case "P2011":
+            return `Null constraint violation on \`${meta.constraint}\`. A required field was not provided.`;
+
+        case "P2012":
+            return `Missing a required value at \`${meta.path}\`.`;
+
+        case "P2013":
+            return `Missing required argument \`${meta.argument_name}\` for field \`${meta.field_name}\` on \`${meta.object_name}\`.`;
+
+        case "P2014":
+            return `This change would violate the required relation \`${meta.relation_name}\` between \`${meta.model_a_name}\` and \`${meta.model_b_name}\`.`;
+
+        case "P2015":
+            return `A related record could not be found: ${meta.details}.`;
+
+        case "P2016":
+            return `Query interpretation error: ${meta.details}.`;
+
+        case "P2017":
+            return `The records for relation \`${meta.relation_name}\` between \`${meta.parent_name}\` and \`${meta.child_name}\` are not connected.`;
+
+        case "P2018":
+            return `The required connected records were not found: ${meta.details}.`;
+
+        case "P2019":
+            return `Input error: ${meta.details}.`;
+
+        case "P2020":
+            return `Value out of range for the column type: ${meta.details}.`;
+
+        case "P2025":
+            return `The requested operation failed because a required record was not found: ${meta.cause}.`;
+
+        default:
+            return `Database error [${code}].`;
+    }
+}
+
+export function appropriateHttpStatusCode(e: Error): {code: number; message: string;} {
     if (e instanceof PrismaClientKnownRequestError) {
         return {
             code: prismaErrorCodes[e.code] ?? 500,
-            message: e.message
+            message: buildPrismaErrorMessage(e.code, e.meta)
         };
     }
 
     if (e instanceof PrismaClientValidationError) {
-        return { code: 400, message: e.message };
+        return { code: 400, message: "Validation error: the request data is malformed." };
     }
 
     if (e instanceof CloudflareAPIError) {
