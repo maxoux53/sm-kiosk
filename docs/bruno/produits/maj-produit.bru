@@ -5,7 +5,7 @@ meta {
 }
 
 patch {
-  url: http://localhost:3001/v1/interact/product/
+  url: http://localhost:3001/v1/interact/product/3
   body: json
   auth: bearer
 }
@@ -16,7 +16,6 @@ auth:bearer {
 
 body:json {
   {
-    "id": 3,
     "label": "un carton (de Tournai)",
     "excl_vat_price": 300,
     "category_id": 3

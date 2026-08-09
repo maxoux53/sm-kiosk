@@ -5,7 +5,7 @@ meta {
 }
 
 post {
-  url: http://localhost:3001/v1/interact/purchase/
+  url: http://localhost:3001/v1/interact/purchase
   body: json
   auth: bearer
 }
@@ -16,6 +16,11 @@ auth:bearer {
 
 body:json {
   {
-    "id": 1
+    "order_lines": [
+      {
+        "product_id": 1,
+        "quantity": 2
+      }
+    ]
   }
 }

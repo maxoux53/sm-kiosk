@@ -1,0 +1,21 @@
+meta {
+  name: suppression cashier evenement
+  type: http
+  seq: 9
+}
+
+delete {
+  url: http://localhost:3001/v1/interact/event/1/cashier
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: 
+}
+
+body:json {
+  {
+    "user_id": 5
+  }
+}

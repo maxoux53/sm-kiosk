@@ -6,6 +6,21 @@ meta {
 
 post {
   url: http://localhost:3001/v1/interact/me/purchase
-  body: none
+  body: json
   auth: bearer
+}
+
+auth:bearer {
+  token: 
+}
+
+body:json {
+  {
+    "order_lines": [
+      {
+        "product_id": 1,
+        "quantity": 2
+      }
+    ]
+  }
 }
