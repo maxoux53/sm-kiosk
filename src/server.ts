@@ -16,7 +16,7 @@ app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec)); // Swagger UI
 
 app.use(
     cors({
-        origin: ["http://localhost:5173", "http://localhost:4173", "https://sm-kiosk-web.vercel.app/"],
+        origin: ["http://localhost:5173", "http://localhost:4173", "https://sm-kiosk-web.vercel.app"],
     }),
     router
 );
