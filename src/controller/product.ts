@@ -1,6 +1,7 @@
 import prisma from "../database/databaseORM";
 import { Prisma } from "../generated/prisma/client";
 import { Request, Response } from "express";
+import { eraseStoredImage } from "../util/images";
 import { appropriateHttpStatusCode } from "../util/appropriateHttpStatusCode";
 import { PAGINATION_LIMIT_DEFAULT_SIZE } from "../constraint-constants";
 
@@ -306,7 +307,7 @@ export const createProduct = async (
                 id: category_id
             },
             select: {
-                picture: true
+                id: true
             }
         });
 
@@ -315,14 +316,12 @@ export const createProduct = async (
             return;
         }
 
-        const productPicture = picture || category.picture;
-
         const newProductId = await prisma.product.create({
             data: {
                 label,
                 is_available,
                 excl_vat_price,
-                picture: productPicture,
+                picture: picture || null,
                 category_id,
                 event_id
             },
@@ -409,14 +408,21 @@ export const deleteProduct = async (
     res: Response
 ): Promise<void> => {
     try {
-        await prisma.product.update({
+        const product = await prisma.product.update({
             where: {
                 id: req.body.id
             },
             data: {
                 deletion_date: new Date()
+            },
+            select: {
+                picture: true
             }
         });
+
+        if (product.picture) {
+            await eraseStoredImage(product.picture);
+        }
 
         res.sendStatus(204);
     } catch (e) {

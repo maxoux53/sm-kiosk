@@ -1,6 +1,7 @@
 import prisma from "../database/databaseORM";
 import { Prisma } from "../generated/prisma/client";
 import { Request, Response } from "express";
+import { eraseStoredImage } from "../util/images";
 import { appropriateHttpStatusCode } from "../util/appropriateHttpStatusCode";
 import { PAGINATION_LIMIT_DEFAULT_SIZE } from "../constraint-constants";
 
@@ -304,22 +305,56 @@ export const deleteEvent = async (
     res: Response
 ): Promise<void> => {
     try {
-        await prisma.$transaction([
-            prisma.product.updateMany({
-                where: {
-                    event_id: req.body.event_id,
-                    deletion_date: null
-                },
-                data: {
-                    deletion_date: new Date()
+        // Récupère l'image de l'événement et les images des produits associés
+        const event = await prisma.event.findUnique({
+            where: {
+                id: req.body.event_id
+            },
+            select: {
+                image: true,
+                product: {
+                    where: {
+                        deletion_date: null
+                    },
+                    select: {
+                        picture: true
+                    }
                 }
-            }),
-            prisma.event.delete({
-                where: {
-                    id: req.body.event_id
-                }
-            })
-        ]);
+            }
+        });
+
+        if (!event) {
+            res.sendStatus(404);
+            return;
+        }
+
+        // Soft-delete les produits et l'événement
+        prisma.product.updateMany({
+            where: {
+                event_id: req.body.event_id,
+                deletion_date: null
+            },
+            data: {
+                deletion_date: new Date()
+            }
+        });
+
+        prisma.event.delete({
+            where: {
+                id: req.body.event_id
+            }
+        });
+
+        // Supprime les images sur Cloudflare
+        if (event.image) {
+            await eraseStoredImage(event.image);
+        }
+        for (const product of event.product) {
+            if (product.picture) {
+                await eraseStoredImage(product.picture);
+            }
+        }
+
         res.sendStatus(204);
     } catch (e) {
         const { code, message } = appropriateHttpStatusCode(e as Error);

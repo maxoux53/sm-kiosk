@@ -290,21 +290,21 @@ export const deleteCategory = async (
     res: Response
 ): Promise<void> => {
     try {
-        await eraseStoredImage(
-            (
-                await prisma.category.update({
-                    where: {
-                        id: req.body.id
-                    },
-                    data: {
-                        deletion_date: new Date()
-                    },
-                    select: {
-                        picture: true
-                    }
-                })
-            ).picture
-        );
+        const category = await prisma.category.update({
+            where: {
+                id: req.body.id
+            },
+            data: {
+                deletion_date: new Date()
+            },
+            select: {
+                picture: true
+            }
+        });
+
+        if (category.picture) {
+            await eraseStoredImage(category.picture);
+        }
 
         res.sendStatus(204);
     } catch (e) {
