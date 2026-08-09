@@ -72,6 +72,7 @@ export const getPurchase = async (
             res.sendStatus(404);
         }
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }
@@ -155,6 +156,7 @@ export const getAllPurchases = async (
             }
         });
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }
@@ -210,6 +212,7 @@ export const getPurchasesByUser = async (
 
         res.status(200).send(purchases);
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }
@@ -251,6 +254,7 @@ export const getPurchasesByEvent = async (
 
         res.status(200).send(purchases);
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }
@@ -352,6 +356,7 @@ export const createPurchase = async (
 
         res.sendStatus(201);
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }
@@ -370,6 +375,7 @@ export const deletePurchase = async (
 
         res.sendStatus(204);
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }

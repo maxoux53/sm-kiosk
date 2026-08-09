@@ -61,6 +61,7 @@ export const getCategory = async (
             res.sendStatus(404);
         }
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }
@@ -164,6 +165,7 @@ export const getAllCategories = async (
             }
         });
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }
@@ -185,6 +187,7 @@ export const getAllLabelCategory = async (
         });
         res.status(200).send(labels);
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }
@@ -239,6 +242,7 @@ export const createCategory = async (
 
         res.status(201).send(newCategory);
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }
@@ -280,6 +284,7 @@ export const updateCategory = async (
 
         res.sendStatus(204);
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }
@@ -308,6 +313,7 @@ export const deleteCategory = async (
 
         res.sendStatus(204);
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }

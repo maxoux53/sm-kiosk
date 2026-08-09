@@ -41,6 +41,7 @@ export const getMembership = async (
             res.sendStatus(404);
         }
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }
@@ -104,6 +105,7 @@ export const getAllCashiersByEvent = async (
         });
         res.status(200).send(cashiers);
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }
@@ -153,6 +155,7 @@ export const createMembership = async (
         });
         res.sendStatus(201);
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }
@@ -170,6 +173,7 @@ export const joinEvent = async (req: Request, res: Response): Promise<void> => {
         });
         res.sendStatus(201);
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }
@@ -192,6 +196,7 @@ export const deleteMembership = async (
         });
         res.sendStatus(204);
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }
@@ -227,6 +232,7 @@ export const deleteCashierFromEvent = async (
         });
         res.sendStatus(204);
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }

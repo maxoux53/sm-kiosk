@@ -25,6 +25,7 @@ export const getOrderLine = async (
             res.sendStatus(404);
         }
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }

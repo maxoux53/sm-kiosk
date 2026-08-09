@@ -23,6 +23,7 @@ export const replaceEventImage = async (
                 await eraseStoredImage(event.image);
             }
         } catch (e) {
+            console.error(e);
             const { code, message } = appropriateHttpStatusCode(e as Error);
             res.status(code).send(message);
             return;
@@ -52,6 +53,7 @@ export const replaceUserAvatar = async (
                 await eraseStoredImage(user.avatar);
             }
         } catch (e) {
+            console.error(e);
             const { code, message } = appropriateHttpStatusCode(e as Error);
             res.status(code).send(message);
             return;
@@ -81,6 +83,7 @@ export const replaceProductPicture = async (
                 await eraseStoredImage(product.picture);
             }
         } catch (e) {
+            console.error(e);
             const { code, message } = appropriateHttpStatusCode(e as Error);
             res.status(code).send(message);
             return;
@@ -110,6 +113,7 @@ export const replaceCategoryPicture = async (
                 await eraseStoredImage(category.picture);
             }
         } catch (e) {
+            console.error(e);
             const { code, message } = appropriateHttpStatusCode(e as Error);
             res.status(code).send(message);
             return;

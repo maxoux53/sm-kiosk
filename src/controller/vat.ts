@@ -47,6 +47,7 @@ export const getVat = async (req: Request, res: Response): Promise<void> => {
             res.sendStatus(404);
         }
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }
@@ -136,6 +137,7 @@ export const getAllVats = async (
             }
         });
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }
@@ -163,6 +165,7 @@ export const createVat = async (req: Request, res: Response): Promise<void> => {
         });
         res.sendStatus(201);
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }
@@ -193,6 +196,7 @@ export const updateVat = async (req: Request, res: Response): Promise<void> => {
 
         res.sendStatus(204);
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }
@@ -212,6 +216,7 @@ export const deleteVat = async (req: Request, res: Response): Promise<void> => {
 
         res.sendStatus(204);
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }

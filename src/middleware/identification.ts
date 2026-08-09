@@ -32,6 +32,7 @@ export const checkJWT = async (
             req.session = verify(authorizationHeader.split(" ")[1]);
             next();
         } catch (e) {
+            console.error(e);
             res.status(401).send((e as VerifyErrors).message);
         }
     } else {
@@ -90,6 +91,7 @@ export const isHost = async (
         }
         next();
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }
@@ -129,6 +131,7 @@ export const isCashier = async (
         }
         next();
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }

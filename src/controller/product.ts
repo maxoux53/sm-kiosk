@@ -88,6 +88,7 @@ export const getProduct = async (
             res.sendStatus(404);
         }
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }
@@ -201,6 +202,7 @@ export const getAllProducts = async (
             }
         });
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }
@@ -246,6 +248,7 @@ export const getProductsByEvent = async (
 
         res.status(200).send(products);
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }
@@ -332,6 +335,7 @@ export const createProduct = async (
 
         res.status(201).send(newProductId);
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }
@@ -388,6 +392,7 @@ export const updateProduct = async (
 
         res.sendStatus(204);
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }
@@ -426,6 +431,7 @@ export const deleteProduct = async (
 
         res.sendStatus(204);
     } catch (e) {
+        console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);
         res.status(code).send(message);
     }
