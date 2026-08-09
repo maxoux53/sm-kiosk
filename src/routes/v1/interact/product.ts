@@ -125,7 +125,7 @@ router.get("/", isAdmin, productVal.getAll, getAllProducts);
  *          500:
  *              description: Error server
  */
-router.post("/", isAdmin, productVal.create, replaceProductPicture, createProduct);
+router.post("/", isAdmin, productVal.create, createProduct);
 
 /**
  * @swagger
