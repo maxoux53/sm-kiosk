@@ -1,0 +1,25 @@
+meta {
+  name: me - rejoindre un événement
+  type: http
+  seq: 9
+}
+
+post {
+  url: http://localhost:3001/v1/interact/me/event/{{eventId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{jwt}}
+}
+
+assert {
+  res.status: eq 201
+}
+
+tests {
+  pm.test("La jointure retourne un body vide", () => {
+    pm.expect(pm.response.text()).to.be.empty;
+  });
+}

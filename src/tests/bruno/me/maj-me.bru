@@ -1,0 +1,31 @@
+meta {
+  name: me - mise à jour profil
+  type: http
+  seq: 4
+}
+
+patch {
+  url: http://localhost:3001/v1/interact/me
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{jwt}}
+}
+
+body:json {
+  {
+    "first_name": "TestUpdated"
+  }
+}
+
+assert {
+  res.status: eq 204
+}
+
+tests {
+  pm.test("La mise à jour du profil retourne un body vide", () => {
+    pm.expect(pm.response.text()).to.be.empty;
+  });
+}

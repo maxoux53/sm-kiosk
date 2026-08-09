@@ -1,0 +1,25 @@
+meta {
+  name: nettoyage - suppression catégorie
+  type: http
+  seq: 36
+}
+
+delete {
+  url: http://localhost:3001/v1/interact/category/{{categoryId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{jwt}}
+}
+
+assert {
+  res.status: eq 204
+}
+
+tests {
+  pm.test("La suppression retourne un body vide (204)", () => {
+    pm.expect(pm.response.text()).to.be.empty;
+  });
+}

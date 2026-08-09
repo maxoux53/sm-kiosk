@@ -1,0 +1,25 @@
+meta {
+  name: nettoyage - suppression utilisateur
+  type: http
+  seq: 40
+}
+
+delete {
+  url: http://localhost:3001/v1/interact/me
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{jwt}}
+}
+
+assert {
+  res.status: eq 204
+}
+
+tests {
+  pm.test("La suppression du compte retourne un body vide (204)", () => {
+    pm.expect(pm.response.text()).to.be.empty;
+  });
+}

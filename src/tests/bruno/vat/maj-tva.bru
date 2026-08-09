@@ -1,0 +1,31 @@
+meta {
+  name: vat - mise à jour
+  type: http
+  seq: 13
+}
+
+patch {
+  url: http://localhost:3001/v1/interact/vat/Z
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{jwt}}
+}
+
+body:json {
+  {
+    "rate": 20
+  }
+}
+
+assert {
+  res.status: eq 204
+}
+
+tests {
+  pm.test("La mise à jour de la TVA retourne un body vide", () => {
+    pm.expect(pm.response.text()).to.be.empty;
+  });
+}

@@ -1,0 +1,38 @@
+meta {
+  name: category - création
+  type: http
+  seq: 14
+}
+
+post {
+  url: http://localhost:3001/v1/interact/category
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{jwt}}
+}
+
+body:json {
+  {
+    "label": "Catégorie de test",
+    "vat_type": "Z",
+    "picture": "https://example.com/cat.png"
+  }
+}
+
+assert {
+  res.status: eq 201
+}
+
+tests {
+  pm.test("La création de catégorie retourne les données", () => {
+    const json = pm.response.json();
+    pm.expect(json).to.have.property("id");
+    pm.expect(json).to.have.property("label");
+    pm.expect(json.label).to.equal("Catégorie de test");
+  });
+
+  bru.setVar("categoryId", pm.response.json().id);
+}

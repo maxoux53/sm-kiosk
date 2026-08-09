@@ -1,0 +1,39 @@
+meta {
+  name: user - liste
+  type: http
+  seq: 27
+}
+
+get {
+  url: http://localhost:3001/v1/interact/user
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{jwt}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+tests {
+  pm.test("La réponse contient un tableau d'utilisateurs et une pagination", () => {
+    const json = pm.response.json();
+    pm.expect(json).to.have.property("data");
+    pm.expect(json.data).to.be.an("array");
+    pm.expect(json).to.have.property("pagination");
+  });
+
+  pm.test("Chaque utilisateur a les champs requis", () => {
+    const json = pm.response.json();
+    if (json.data.length > 0) {
+      const user = json.data[0];
+      pm.expect(user).to.have.property("id");
+      pm.expect(user).to.have.property("first_name");
+      pm.expect(user).to.have.property("last_name");
+      pm.expect(user).to.have.property("email");
+    }
+  });
+}

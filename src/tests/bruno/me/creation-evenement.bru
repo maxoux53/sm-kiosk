@@ -1,0 +1,41 @@
+meta {
+  name: me - création événement
+  type: http
+  seq: 5
+}
+
+post {
+  url: http://localhost:3001/v1/interact/me/event
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{jwt}}
+}
+
+body:json {
+  {
+    "name": "Événement de test",
+    "location": "Tournai",
+    "iban": "BE71096123456769",
+    "is_active": true
+  }
+}
+
+assert {
+  res.status: eq 201
+}
+
+tests {
+  pm.test("La création d'événement retourne les données de l'événement", () => {
+    const json = pm.response.json();
+    pm.expect(json).to.have.property("id");
+    pm.expect(json).to.have.property("name");
+    pm.expect(json.name).to.equal("Événement de test");
+    pm.expect(json.location).to.equal("Tournai");
+  });
+
+  // Sauvegarde de l'ID de l'événement créé
+  bru.setVar("eventId", pm.response.json().id);
+}

@@ -1,0 +1,36 @@
+meta {
+  name: signup
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:3001/v1/signup
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "first_name": "Test",
+    "last_name": "Admin",
+    "email": "test-admin@smart.dossier",
+    "password": "test123",
+    "is_admin": true
+  }
+}
+
+assert {
+  res.status: eq 201
+}
+
+tests {
+  pm.test("La réponse contient un token et un user", () => {
+    const json = pm.response.json();
+    pm.expect(json).to.have.property("token");
+    pm.expect(json).to.have.property("user");
+    pm.expect(json.user).to.have.property("id");
+    pm.expect(json.user).to.have.property("is_admin");
+    pm.expect(json.user.is_admin).to.be.true;
+  });
+}

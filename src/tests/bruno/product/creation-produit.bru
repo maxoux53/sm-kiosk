@@ -1,0 +1,42 @@
+meta {
+  name: product - création
+  type: http
+  seq: 18
+}
+
+post {
+  url: http://localhost:3001/v1/interact/product
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{jwt}}
+}
+
+body:json {
+  {
+    "label": "Produit de test",
+    "is_available": true,
+    "excl_vat_price": 9.99,
+    "category_id": {{categoryId}},
+    "event_id": {{eventId}},
+    "picture": "https://example.com/product.png"
+  }
+}
+
+assert {
+  res.status: eq 201
+}
+
+tests {
+  pm.test("La création de produit retourne les données", () => {
+    const json = pm.response.json();
+    pm.expect(json).to.have.property("id");
+    pm.expect(json).to.have.property("label");
+    pm.expect(json.label).to.equal("Produit de test");
+    pm.expect(json.excl_vat_price).to.equal(9.99);
+  });
+
+  bru.setVar("productId", pm.response.json().id);
+}

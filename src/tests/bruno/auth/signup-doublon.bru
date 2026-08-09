@@ -1,0 +1,31 @@
+meta {
+  name: signup - email déjà utilisé
+  type: http
+  seq: 33
+}
+
+post {
+  url: http://localhost:3001/v1/signup
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "first_name": "Doublon",
+    "last_name": "Test",
+    "email": "test-admin@smart.dossier",
+    "password": "test123",
+    "is_admin": false
+  }
+}
+
+assert {
+  res.status: eq 409
+}
+
+tests {
+  pm.test("La réponse est un 409 Conflict (email déjà utilisé)", () => {
+    pm.expect(pm.response.code).to.equal(409);
+  });
+}

@@ -1,0 +1,28 @@
+meta {
+  name: login - mauvais mot de passe
+  type: http
+  seq: 32
+}
+
+post {
+  url: http://localhost:3001/v1/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "test-admin@smart.dossier",
+    "password": "mauvais-motdepasse"
+  }
+}
+
+assert {
+  res.status: eq 401
+}
+
+tests {
+  pm.test("La réponse est un 401 Unauthorized", () => {
+    pm.expect(pm.response.code).to.equal(401);
+  });
+}

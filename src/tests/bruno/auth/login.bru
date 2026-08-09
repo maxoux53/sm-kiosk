@@ -1,0 +1,41 @@
+meta {
+  name: login
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:3001/v1/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "test-admin@smart.dossier",
+    "password": "test123"
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+tests {
+  pm.test("La réponse contient un token JWT et un user", () => {
+    const json = pm.response.json();
+    pm.expect(json).to.have.property("token");
+    pm.expect(json).to.have.property("user");
+    pm.expect(json.user).to.have.property("id");
+    pm.expect(json.user).to.have.property("is_admin");
+  });
+
+  pm.test("Le token est une chaîne non vide", () => {
+    const json = pm.response.json();
+    pm.expect(json.token).to.be.a("string").and.not.empty;
+  });
+
+  // Sauvegarde du JWT pour les requêtes suivantes
+  bru.setVar("jwt", pm.response.json().token);
+  bru.setVar("userId", pm.response.json().user.id);
+}

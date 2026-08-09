@@ -1,0 +1,33 @@
+meta {
+  name: purchase - obtention
+  type: http
+  seq: 25
+}
+
+get {
+  url: http://localhost:3001/v1/interact/purchase/{{purchaseId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{jwt}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+tests {
+  pm.test("La réponse contient les champs de l'achat", () => {
+    const json = pm.response.json();
+    pm.expect(json).to.have.property("id");
+    pm.expect(json).to.have.property("date");
+    pm.expect(json).to.have.property("user_id");
+  });
+
+  pm.test("L'achat correspond à celui créé", () => {
+    const json = pm.response.json();
+    pm.expect(json.id).to.equal(pm.variables.get("purchaseId"));
+  });
+}

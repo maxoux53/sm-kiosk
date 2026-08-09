@@ -1,0 +1,36 @@
+meta {
+  name: product - obtention
+  type: http
+  seq: 19
+}
+
+get {
+  url: http://localhost:3001/v1/interact/product/{{productId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{jwt}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+tests {
+  pm.test("La réponse contient les champs du produit", () => {
+    const json = pm.response.json();
+    pm.expect(json).to.have.property("id");
+    pm.expect(json).to.have.property("label");
+    pm.expect(json).to.have.property("excl_vat_price");
+    pm.expect(json).to.have.property("category_id");
+    pm.expect(json).to.have.property("event_id");
+  });
+
+  pm.test("Le produit correspond à celui créé", () => {
+    const json = pm.response.json();
+    pm.expect(json.id).to.equal(pm.variables.get("productId"));
+    pm.expect(json.label).to.equal("Produit de test");
+  });
+}

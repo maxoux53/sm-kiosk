@@ -1,0 +1,31 @@
+meta {
+  name: event - mise à jour événement
+  type: http
+  seq: 8
+}
+
+patch {
+  url: http://localhost:3001/v1/interact/event/{{eventId}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{jwt}}
+}
+
+body:json {
+  {
+    "name": "Événement de test (maj)"
+  }
+}
+
+assert {
+  res.status: eq 204
+}
+
+tests {
+  pm.test("La mise à jour de l'événement retourne un body vide", () => {
+    pm.expect(pm.response.text()).to.be.empty;
+  });
+}

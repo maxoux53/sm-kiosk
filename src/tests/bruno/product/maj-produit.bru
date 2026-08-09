@@ -1,0 +1,32 @@
+meta {
+  name: product - mise à jour
+  type: http
+  seq: 21
+}
+
+patch {
+  url: http://localhost:3001/v1/interact/product/{{productId}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{jwt}}
+}
+
+body:json {
+  {
+    "label": "Produit de test (maj)",
+    "excl_vat_price": 19.99
+  }
+}
+
+assert {
+  res.status: eq 204
+}
+
+tests {
+  pm.test("La mise à jour du produit retourne un body vide", () => {
+    pm.expect(pm.response.text()).to.be.empty;
+  });
+}
