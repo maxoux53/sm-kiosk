@@ -11,6 +11,9 @@ RUN npm i
 
 COPY . .
 
+COPY entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+
 ARG DATABASE_URL="postgresql://user:password@localhost:5432/db"
 ENV DATABASE_URL=${DATABASE_URL}
 
@@ -21,4 +24,5 @@ RUN npm run build
 
 EXPOSE 3001
 
+ENTRYPOINT ["/app/entrypoint.sh"]
 CMD ["npm", "run", "start"]
