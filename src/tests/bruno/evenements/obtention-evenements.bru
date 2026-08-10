@@ -1,0 +1,49 @@
+meta {
+  name: obtention evenements
+  type: http
+  seq: 9
+}
+
+get {
+  url: http://localhost:3001/v1/interact/event?search=&offset=0&limit=20
+  body: none
+  auth: bearer
+}
+
+params:query {
+  search: 
+  offset: 0
+  limit: 20
+}
+
+auth:bearer {
+  token: {{jwt}}
+}
+
+tests {
+  test("le code de réponse est 200", function() {
+    expect(res.status).to.equal(200);
+  });
+
+  test("la réponse contient un tableau data et un objet pagination", function() {
+    expect(res.body).to.have.property("data");
+    expect(res.body.data).to.be.an("array");
+    expect(res.body).to.have.property("pagination");
+    expect(res.body.pagination).to.have.property("total");
+    expect(res.body.pagination).to.have.property("offset");
+    expect(res.body.pagination).to.have.property("limit");
+  });
+
+  test("chaque événement a les propriétés id, name, location et is_active", function() {
+    res.body.data.forEach(function(event) {
+      expect(event).to.have.property("id");
+      expect(event).to.have.property("name");
+      expect(event).to.have.property("location");
+      expect(event).to.have.property("is_active");
+    });
+  });
+
+  if (res.body.data.length > 0) {
+    bru.setVar("event_id", res.body.data[0].id);
+  }
+}

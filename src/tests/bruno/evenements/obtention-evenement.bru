@@ -1,0 +1,33 @@
+meta {
+  name: obtention evenement
+  type: http
+  seq: 10
+}
+
+get {
+  url: http://localhost:3001/v1/interact/event/{{event_id}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{jwt}}
+}
+
+tests {
+  test("le code de réponse est 200", function() {
+    expect(res.status).to.equal(200);
+  });
+
+  test("l'événement contient les propriétés id, name, location, is_active et iban", function() {
+    expect(res.body).to.have.property("id");
+    expect(res.body).to.have.property("name");
+    expect(res.body).to.have.property("location");
+    expect(res.body).to.have.property("is_active");
+    expect(res.body).to.have.property("iban");
+  });
+
+  test("l'id de l'événement correspond à celui demandé", function() {
+    expect(res.body.id).to.equal(parseInt(bru.getVar("event_id")));
+  });
+}

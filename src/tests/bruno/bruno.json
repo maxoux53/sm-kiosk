@@ -1,6 +1,6 @@
 {
-  "version": "1",
-  "name": "SmartKiosk Tests",
-  "type": "collection",
-  "ignore": ["node_modules", ".git"]
+    "version": "1",
+    "name": "SMAPI-Tests",
+    "type": "collection",
+    "ignore": ["node_modules", ".git"]
 }

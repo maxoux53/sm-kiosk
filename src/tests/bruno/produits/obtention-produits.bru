@@ -1,0 +1,50 @@
+meta {
+  name: obtention produits
+  type: http
+  seq: 7
+}
+
+get {
+  url: http://localhost:3001/v1/interact/product?search=&offset=0&limit=20
+  body: none
+  auth: bearer
+}
+
+params:query {
+  search: 
+  offset: 0
+  limit: 20
+}
+
+auth:bearer {
+  token: {{jwt}}
+}
+
+tests {
+  test("le code de réponse est 200", function() {
+    expect(res.status).to.equal(200);
+  });
+
+  test("la réponse contient un tableau data et un objet pagination", function() {
+    expect(res.body).to.have.property("data");
+    expect(res.body.data).to.be.an("array");
+    expect(res.body).to.have.property("pagination");
+    expect(res.body.pagination).to.have.property("total");
+    expect(res.body.pagination).to.have.property("offset");
+    expect(res.body.pagination).to.have.property("limit");
+  });
+
+  test("chaque produit du tableau a les propriétés id, label, is_available et excl_vat_price", function() {
+    res.body.data.forEach(function(product) {
+      expect(product).to.have.property("id");
+      expect(product).to.have.property("label");
+      expect(product).to.have.property("is_available");
+      expect(product).to.have.property("excl_vat_price");
+      expect(product).to.have.property("picture");
+    });
+  });
+
+  if (res.body.data.length > 0) {
+    bru.setVar("prod_id", res.body.data[0].id);
+  }
+}

@@ -1,0 +1,21 @@
+meta {
+  name: suppression categorie
+  type: http
+  seq: 6
+}
+
+delete {
+  url: http://localhost:3001/v1/interact/category/{{new_cat_id}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{jwt}}
+}
+
+tests {
+  test("le code de réponse est 204", function() {
+    expect(res.status).to.equal(204);
+  });
+}

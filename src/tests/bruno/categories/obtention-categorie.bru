@@ -1,0 +1,32 @@
+meta {
+  name: obtention categorie
+  type: http
+  seq: 3
+}
+
+get {
+  url: http://localhost:3001/v1/interact/category/{{cat_id}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{jwt}}
+}
+
+tests {
+  test("le code de réponse est 200", function() {
+    expect(res.status).to.equal(200);
+  });
+
+  test("la réponse contient les propriétés id, label, vat_type et picture", function() {
+    expect(res.body).to.have.property("id");
+    expect(res.body).to.have.property("label");
+    expect(res.body).to.have.property("vat_type");
+    expect(res.body).to.have.property("picture");
+  });
+
+  test("l'id de la catégorie correspond à celui demandé", function() {
+    expect(res.body.id).to.equal(parseInt(bru.getVar("cat_id")));
+  });
+}

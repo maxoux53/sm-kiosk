@@ -5,11 +5,11 @@ meta {
 }
 
 delete {
-  url: http://localhost:3001/v1/interact/user/5
+  url: http://localhost:3001/v1/interact/user/3
   body: none
   auth: bearer
 }
 
 auth:bearer {
-  token: 
+  token: {{jwt}}
 }

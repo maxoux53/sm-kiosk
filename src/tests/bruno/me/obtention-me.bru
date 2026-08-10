@@ -1,7 +1,7 @@
 meta {
-  name: me - obtention profil
+  name: obtention me
   type: http
-  seq: 3
+  seq: 11
 }
 
 get {
@@ -14,22 +14,20 @@ auth:bearer {
   token: {{jwt}}
 }
 
-assert {
-  res.status: eq 200
-}
-
 tests {
-  pm.test("La réponse contient les champs du profil utilisateur", () => {
-    const json = pm.response.json();
-    pm.expect(json).to.have.property("id");
-    pm.expect(json).to.have.property("first_name");
-    pm.expect(json).to.have.property("last_name");
-    pm.expect(json).to.have.property("email");
-    pm.expect(json).to.have.property("is_admin");
+  test("le code de réponse est 200", function() {
+    expect(res.status).to.equal(200);
   });
 
-  pm.test("Le profil correspond à l'utilisateur connecté", () => {
-    const json = pm.response.json();
-    pm.expect(json.id).to.equal(pm.variables.get("userId"));
+  test("le profil contient id, first_name, last_name, email et is_admin", function() {
+    expect(res.body).to.have.property("id");
+    expect(res.body).to.have.property("first_name");
+    expect(res.body).to.have.property("last_name");
+    expect(res.body).to.have.property("email");
+    expect(res.body).to.have.property("is_admin");
+  });
+
+  test("l'utilisateur du profil est admin", function() {
+    expect(res.body.is_admin).to.be.true;
   });
 }

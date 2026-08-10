@@ -1,0 +1,28 @@
+meta {
+  name: maj categorie
+  type: http
+  seq: 5
+}
+
+patch {
+  url: http://localhost:3001/v1/interact/category/{{new_cat_id}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{jwt}}
+}
+
+body:json {
+  {
+    "label": "Catégorie test Bruno (maj)",
+    "vat_type": "B"
+  }
+}
+
+tests {
+  test("le code de réponse est 204", function() {
+    expect(res.status).to.equal(204);
+  });
+}

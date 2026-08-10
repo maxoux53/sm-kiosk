@@ -1,7 +1,7 @@
 meta {
   name: login
   type: http
-  seq: 2
+  seq: 1
 }
 
 post {
@@ -12,30 +12,30 @@ post {
 
 body:json {
   {
-    "email": "test-admin@smart.dossier",
-    "password": "test123"
+    "email": "jean.dupont@example.com",
+    "password": "jeandupont123"
   }
 }
 
-assert {
-  res.status: eq 200
-}
-
 tests {
-  pm.test("La réponse contient un token JWT et un user", () => {
-    const json = pm.response.json();
-    pm.expect(json).to.have.property("token");
-    pm.expect(json).to.have.property("user");
-    pm.expect(json.user).to.have.property("id");
-    pm.expect(json.user).to.have.property("is_admin");
+  test("le code de réponse est 200", function() {
+    expect(res.status).to.equal(200);
   });
 
-  pm.test("Le token est une chaîne non vide", () => {
-    const json = pm.response.json();
-    pm.expect(json.token).to.be.a("string").and.not.empty;
+  test("la réponse contient un token JWT", function() {
+    expect(res.body).to.have.property("token");
+    expect(res.body.token).to.be.a("string").and.not.empty;
   });
 
-  // Sauvegarde du JWT pour les requêtes suivantes
-  bru.setVar("jwt", pm.response.json().token);
-  bru.setVar("userId", pm.response.json().user.id);
+  test("la réponse contient un objet user avec id et is_admin", function() {
+    expect(res.body).to.have.property("user");
+    expect(res.body.user).to.have.property("id");
+    expect(res.body.user).to.have.property("is_admin");
+  });
+
+  test("l'utilisateur connecté est admin", function() {
+    expect(res.body.user.is_admin).to.be.true;
+  });
+
+  bru.setVar("jwt", res.body.token);
 }

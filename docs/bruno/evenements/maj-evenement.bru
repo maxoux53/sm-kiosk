@@ -5,13 +5,13 @@ meta {
 }
 
 patch {
-  url: http://localhost:3001/v1/interact/event/6
+  url: http://localhost:3001/v1/interact/event/1
   body: json
   auth: bearer
 }
 
 auth:bearer {
-  token: 
+  token: {{jwt}}
 }
 
 body:json {
