@@ -23,10 +23,6 @@ import { PAGINATION_LIMIT_DEFAULT_SIZE } from "../constraint-constants";
  *              picture:
  *                  type: string
  *                  nullable: true
- *              deletion_date:
- *                  type: string
- *                  format: date-time
- *                  nullable: true
  *              category_id:
  *                  type: integer
  *              event_id:

@@ -15,10 +15,6 @@ import { PAGINATION_LIMIT_DEFAULT_SIZE } from "../constraint-constants";
  *                  type: string
  *              rate:
  *                  type: integer
- *              deletion_date:
- *                  type: string
- *                  format: date-time
- *                  nullable: true
  */
 
 /**
