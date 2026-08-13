@@ -161,12 +161,12 @@ export const getAllEvents = async (
     }
 };
 
-export const getEventsByUser = async (
+export const getEventByUser = async (
     req: Request,
     res: Response
 ): Promise<void> => {
     try {
-        const events = await prisma.event.findMany({
+        const event = await prisma.event.findFirst({
             where: {
                 membership: {
                     some: {
@@ -179,7 +179,11 @@ export const getEventsByUser = async (
             }
         });
 
-        res.status(200).send(events);
+        if (event) {
+            res.status(200).send(event);
+        } else {
+            res.sendStatus(404);
+        }
     } catch (e) {
         console.error(e);
         const { code, message } = appropriateHttpStatusCode(e as Error);

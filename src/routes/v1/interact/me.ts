@@ -5,7 +5,7 @@ import {
     getPurchasesByUser,
     createPurchase
 } from "../../../controller/purchase";
-import { getEventsByUser, createEvent } from "../../../controller/event";
+import { getEventByUser, createEvent } from "../../../controller/event";
 import { joinEvent, deleteMembership } from "../../../controller/membership";
 
 import { replaceUserAvatar } from "../../../middleware/image-replacement";
@@ -121,7 +121,7 @@ router.post("/event", eventVal.create, createEvent);
 
 /**
  * @swagger
- * /v1/interact/me/events:
+ * /v1/interact/me/event:
  *  get:
  *      security:
  *          - bearerAuth: []
@@ -129,9 +129,15 @@ router.post("/event", eventVal.create, createEvent);
  *          - Me
  *      responses:
  *          200:
- *              $ref: '#/components/responses/EventList'
+ *              $ref: '#/components/responses/Event'
  *          400:
  *              description: the error(s) described
+ *              content:
+ *                  text/plain:
+ *                      schema:
+ *                          type: string
+ *          404:
+ *              description: event not found
  *              content:
  *                  text/plain:
  *                      schema:
@@ -139,7 +145,7 @@ router.post("/event", eventVal.create, createEvent);
  *          500:
  *              description: Error server
  */
-router.get("/events", getEventsByUser);
+router.get("/event", getEventByUser);
 
 /**
  * @swagger
