@@ -176,6 +176,10 @@ export const getEventByUser = async (
             }
         });
 
+        if (event?.image) {
+            event.image = `https://imagedelivery.net/${process.env.CF_ACCOUNT_HASH}/${event.image}/public`;
+        }
+
         if (event) {
             res.status(200).send(event);
         } else {
