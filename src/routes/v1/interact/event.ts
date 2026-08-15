@@ -9,6 +9,9 @@ import {
 import {
     getProductsByEvent
 } from "../../../controller/product";
+import {
+    getCategoriesByEvent
+} from "../../../controller/category";
 import { getPurchasesByEvent } from "../../../controller/purchase";
 import {
     createMembership,
@@ -20,7 +23,8 @@ import {
     eventVal,
     membershipVal,
     productVal,
-    purchaseVal
+    purchaseVal,
+    categoryVal
 } from "../../../middleware/validation/validator";
 
 import {
@@ -334,6 +338,35 @@ router.delete(
  *              description: Error server
  */
 router.get("/:event_id/products", productVal.getByEvent, getProductsByEvent);
+
+/**
+ * @swagger
+ * /v1/interact/event/{event_id}/categories:
+ *  get:
+ *      security:
+ *          - bearerAuth: []
+ *      tags:
+ *          - Category
+ *      parameters:
+ *         - in: path
+ *           name: event_id
+ *           schema:
+ *             type: integer
+ *           required: true
+ *           description: Numeric ID of the event
+ *      responses:
+ *          200:
+ *              $ref: '#/components/responses/CategoryList'
+ *          400:
+ *              description: the error(s) described
+ *              content:
+ *                  text/plain:
+ *                      schema:
+ *                          type: string
+ *          500:
+ *              description: Error server
+ */
+router.get("/:event_id/categories", categoryVal.getByEvent, getCategoriesByEvent);
 
 /**
  * @swagger
