@@ -193,6 +193,43 @@ export const getAllLabelCategory = async (
     }
 };
 
+export const getCategoriesByEvent = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
+    try {
+        const categories = await prisma.category.findMany({
+            where: {
+                deletion_date: null,
+                product: {
+                    some: {
+                        event_id: req.body.event_id,
+                        deletion_date: null
+                    }
+                }
+            },
+            select: {
+                id: true,
+                label: true,
+                vat_type: true,
+                picture: true
+            }
+        });
+
+        categories.forEach((category) => {
+            if (category?.picture) {
+                category.picture = `https://imagedelivery.net/${process.env.CF_ACCOUNT_HASH}/${category.picture}/public`;
+            }
+        });
+
+        res.status(200).send(categories);
+    } catch (e) {
+        console.error(e);
+        const { code, message } = appropriateHttpStatusCode(e as Error);
+        res.status(code).send(message);
+    }
+};
+
 /**
  * @swagger
  * components:

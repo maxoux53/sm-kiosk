@@ -62,6 +62,17 @@ export const categoryVal = {
             console.error(e);
             res.status(400).send((e as ValidationError).message);
         }
+    },
+    getByEvent: async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            req.body = await categorySchemas.categoriesByEvent.validate(
+                req.params
+            );
+            next();
+        } catch (e) {
+            console.error(e);
+            res.status(400).send((e as ValidationError).message);
+        }
     }
 };
 

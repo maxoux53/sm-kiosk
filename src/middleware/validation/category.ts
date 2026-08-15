@@ -78,8 +78,25 @@ const categoryUpdateSchema = vine.object({
     picture: picture.optional()
 });
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      CategoriesByEventSchema:
+ *          type: object
+ *          properties:
+ *              event_id:
+ *                  type: integer
+ *          required:
+ *              - event_id
+ */
+const categoriesByEventSchema = vine.object({
+    event_id: vine.number()
+});
+
 export const categorySearch = vine.create(categoryIdSchema),
     categoriesSearch = vine.create(categorySearchSchema),
     categoryCreation = vine.create(categoryCreationSchema),
     categoryUpdate = vine.create(categoryUpdateSchema),
-    categoryDeletion = vine.create(categoryIdSchema);
+    categoryDeletion = vine.create(categoryIdSchema),
+    categoriesByEvent = vine.create(categoriesByEventSchema);
