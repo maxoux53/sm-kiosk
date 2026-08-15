@@ -170,10 +170,7 @@ export const getEventByUser = async (
             where: {
                 membership: {
                     some: {
-                        user_id: req.session.id,
-                        role: {
-                            in: ["host", "cashier"]
-                        }
+                        user_id: req.session.id
                     }
                 }
             }
