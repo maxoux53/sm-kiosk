@@ -181,6 +181,7 @@ export const getPurchasesByUser = async (
                         price: true,
                         product: {
                             select: {
+                                id: true,
                                 label: true,
                                 picture: true,
                                 event: {
