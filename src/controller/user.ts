@@ -63,7 +63,8 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     try {
         const user = await prisma.user.findUnique({
             where: {
-                email
+                email,
+                deletion_date: null
             },
             select: {
                 id: true,
