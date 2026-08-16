@@ -193,7 +193,8 @@ export const getPurchasesByUser = async (
                                 category: {
                                     select: {
                                         id: true,
-                                        label: true
+                                        label: true,
+                                        vat_type: true
                                     }
                                 }
                             }
