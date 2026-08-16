@@ -64,8 +64,10 @@ export const getProduct = async (
                     select: {
                         id: true,
                         label: true,
+                        vat_type: true,
                         vat: {
                             select: {
+                                type: true,
                                 rate: true
                             }
                         }
@@ -225,6 +227,7 @@ export const getProductsByEvent = async (
                     select: {
                         id: true,
                         label: true,
+                        vat_type: true,
                         vat: {
                             select: {
                                 type: true,
