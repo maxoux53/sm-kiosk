@@ -1,5 +1,6 @@
 import { ValidationError } from "@vinejs/vine";
 import { Request, Response, NextFunction } from "express";
+import { sendValidationError } from "../../util/validationError";
 import * as categorySchemas from "./category";
 import * as productSchemas from "./product";
 import * as eventSchemas from "./event";
@@ -350,7 +351,7 @@ export const userVal = {
             next();
         } catch (e) {
             console.error(e);
-            res.status(400).send((e as ValidationError).message);
+            sendValidationError(res, e);
         }
     },
     signup: async (req: Request, res: Response, next: NextFunction) => {
@@ -359,7 +360,7 @@ export const userVal = {
             next();
         } catch (e) {
             console.error(e);
-            res.status(400).send((e as ValidationError).message);
+            sendValidationError(res, e);
         }
     }
 };
