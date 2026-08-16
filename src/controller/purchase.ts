@@ -184,6 +184,7 @@ export const getPurchasesByUser = async (
                                 id: true,
                                 label: true,
                                 picture: true,
+                                excl_vat_price: true,
                                 event: {
                                     select: {
                                         id: true,
