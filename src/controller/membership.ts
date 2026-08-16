@@ -186,12 +186,12 @@ export const deleteMembership = async (
     const { event_id } = req.body;
 
     try {
-        await prisma.membership.delete({
+        // deleteMany rend l'opération idempotente : quitter un évènement déjà
+        // quitté renvoie 204 au lieu d'un 404 (P2025) déroutant.
+        await prisma.membership.deleteMany({
             where: {
-                user_id_event_id: {
-                    user_id: req.session.id,
-                    event_id
-                }
+                user_id: req.session.id,
+                event_id
             }
         });
         res.sendStatus(204);
